@@ -1,0 +1,3 @@
+useDynLib(rSpectral)
+importFrom(Rcpp,evalCpp)
+export(spectral)

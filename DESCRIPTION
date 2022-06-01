@@ -1,0 +1,15 @@
+Package: rSpectral
+Type: Package
+Title: Spectral Modularity Clustering
+Version: 1.0
+Author: Colin Mclean
+Maintainer: Colin Mclean <Colin.D.Mclean@ed.ac.uk>
+Description: 
+URL:
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Depends: R (>= 4.2.0)
+Imports: Rcpp (>= 1.0.8.3)
+LinkingTo: Rcpp, RcppArmadillo

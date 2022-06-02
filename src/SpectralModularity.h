@@ -28,8 +28,11 @@ class SpectralModularity {
   void calculateB( double *, int );
   int  delta( int, int );
   void split( double *, int, int *, const char* );
+  void updateNodeComs( const int, int *, int *, const char* );
+  void updateNodeComs( const int );
   void deltaModularityMax( int, double & );
   void maxModularity( double & );
+  void neighborNodeMove( double & );
   void modifySplit( int );
   void deltaModularity( double & );
   void maximiseIndexVectors();

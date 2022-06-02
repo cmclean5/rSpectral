@@ -145,24 +145,10 @@ int SpectralModularity::calculateSpectralModularity(){
   }
 
   //--- Keep recorded of maximum fine-tuned Modularity value.
-  specQ += deltaQ_old;
+  specQ += deltaQ_old; 
 
-  if( PRINT ){ cout << "si[0] " << si[0] << endl; }
-  
-  if( PRINT ){ cout << "> node list " << endl; }
-  for(k=0; k<Ng; k++){
-
-    if(si[k] > 0){
-      keys_p[k]  = gg->V[k].id;
-      keys_n[k]  = dummy;
-      gg->V[k].K = 1;
-    } else {
-      keys_p[k]  = dummy;
-      keys_n[k]  = gg->V[k].id;
-      gg->V[k].K = 2;
-    }
-
-  }
+  //--- update node community assignment
+  updateNodeComs(Ng);
 
   //--- update the maximum community number
   MAXK = 2;
@@ -468,9 +454,9 @@ void SpectralModularity::modifySplit( int countmax ){
       for(k=0; k<Ng; k++){ Gsi[k] = si[k]; }
       
       for(k=0; k<KK; k++){
-	i = floor(k/2);
-	j = k % 2;
-	GSI[(i*2)+j] = SI[(i*2)+j];
+        i = floor(k/2);
+        j = k % 2;
+        GSI[(i*2)+j] = SI[(i*2)+j];
       }
 
     }
@@ -496,7 +482,7 @@ void SpectralModularity::modifySplit( int countmax ){
 
 /*
  Utility method used by the Spectral method to find 
- which node, when moved gives the maximum change in the 
+ which node, when moved, gives the maximum change in the 
  Modularity value.
  */
 void SpectralModularity::maxModularity(double &qmax){
@@ -532,6 +518,78 @@ void SpectralModularity::maxModularity(double &qmax){
     if( qstored[k] > qmax ){
       qmax    = qstored[k];
       ind_max = k; 
+    }
+
+  }
+  
+  if( ind_max != -1 ){
+    visited[ind_max] = 1;
+    if( si[ind_max] == 1 ){
+      si[ind_max] = -1;
+      SI[(ind_max*2)+0] = 0;
+      SI[(ind_max*2)+1] = 1;
+    } else {
+      si[ind_max] = 1;
+      SI[(ind_max*2)+0] = 1;
+      SI[(ind_max*2)+1] = 0;
+    }
+  } 
+  
+
+}
+
+
+/*
+ Utility method used by the Spectral method to find 
+ which neighboring node when moved, when in a different community from current node, 
+ gives the maximum change in the Modularity value.
+ */
+void SpectralModularity::neighborNodeMove(double &qmax){
+
+  int u,v,i,k,Ng,ind_max,node_K,neig_K;
+  double Q;
+  
+  Ng = NR_Bgi;
+   
+  double qstored[Ng];
+  for(k=0; k<Ng; k++){ qstored[k]=dummy; }
+  Q = 0.0;
+     
+  for(u=0; u<Ng; u++){
+    
+    //qstored[u] = 0.0;
+        
+    if( visited[u] < 1 ){
+
+      node_K = gg->V[u].K;
+      
+      for (i=0; i<gg->V[u].degree; i++) {
+        v      = gg->V[u].E[i].target;
+        neig_K = gg->V[v].K;
+        if( v != u && neig_K != node_K && visited[v] < 1 ){
+      
+          Q  = 0.0;
+      
+          deltaModularityMax( v, Q );      
+      
+          qstored[v] = Q;
+
+        }
+      }
+
+    }
+
+  }
+
+  qmax    =   0;//qstored(0);
+  ind_max =  -1;//0; 
+  for(k=0; k<Ng; k++){
+
+    if( qstored[k] != dummy ){
+      if( qstored[k] > qmax ){
+        qmax    = qstored[k];
+        ind_max = k; 
+      }
     }
 
   }
@@ -715,62 +773,21 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
 
     
     //Minimum cluster size... we can reset this either in the header or using setMinCn();
-    if( cp < MINCn || cn < MINCn ) { if( PRINT ){ cout << "> Stop splitting. " << endl; }
+    if( cp < MINCn || cn < MINCn ) {
 
+      if( PRINT ){ cout << "> Stop splitting. " << endl; }
+
+      //free memory
+      free(Bgii);
+      free(keysi_p);
+      free(keysi_n);    
+      
       return;
 
-    }
+    }   
 
-    if( strcmp (sign,"splitP") == 0 ){
-
-    //--- get the maximum community number
-    int Ncomp = MAXK  + 1;
-    MAXK      = Ncomp;
-    
-    if( PRINT ){ cout << "si[0] " << si[0] << endl; }
-    if( PRINT ){ cout << "> node list " << endl; }
-
-    for(k=0; k<Ng; k++){
-
-      if( si[k] > 0 ){
-	keysi_p[k] = (int)keysi_p[k];
-	keysi_n[k] = dummy;
-	gg->V[ (int)keysi_p[k] ].K = Ncomp;
-	if( PRINT ){ cout << "> Node: " << gg->V[ (int)keysi_p[k]].label << " c = " << gg->V[ (int)keysi_p[k]].K << endl; }
-      } else {
-	keysi_n[k] = (int)keysi_p[k];
-	keysi_p[k] = dummy;
-	if( PRINT ){ cout << "> Node: " << gg->V[ (int)keysi_n[k]].label << " c = " << gg->V[ (int)keysi_n[k]].K << endl; }
-      }
-
-    }
-
-    } else {
-
-      //--- get the maximum community number
-      int Ncomn = MAXK  + 1;
-      MAXK      = Ncomn;
-    
-      if( PRINT ){ cout << "si[0] " << si[0] << endl; }    
-      if( PRINT ){ cout << "> node list " << endl; }
-      
-      for(k=0; k<Ng; k++){
-	
-	if( si[k] < 0 ){
-	  keysi_n[k] = keysi_n[k];
-	  keysi_p[k] = dummy;
-	  gg->V[ (int)keysi_n[k] ].K = Ncomn;
-	  if( PRINT ){ cout << "> Node: " << gg->V[ (int)keysi_n[k]].label << " c = " << gg->V[ (int)keysi_n[k]].K << endl; }	  
-	} else {
-	  keysi_p[k] = keysi_n[k];
-	  keysi_n[k] = dummy;
-	  if( PRINT ){ cout << "> Node: " << gg->V[ (int)keysi_p[k]].label << " c = " << gg->V[ (int)keysi_p[k]].K << endl; }
-	}
-	
-      }
-	
-      
-    }
+    //--- update node community assignment
+    updateNodeComs(Ng, keysi_p, keysi_n, sign);
     
     //--- Recursively split the group of positive eigenvector nodes
     split( Bgii, Ng, keysi_p, "splitP" );
@@ -791,6 +808,99 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
   
 }
 
+/*
+  utility method to update node community assignment after 
+  performing the initial split.
+ */
+void SpectralModularity::updateNodeComs( const int Ng ){
+
+  int k;
+  
+  if( PRINT ){ cout << "si[0] " << si[0] << endl; }
+  
+  if( PRINT ){ cout << "> node list " << endl; }
+  for(k=0; k<Ng; k++){
+
+    if(si[k] > 0){
+      keys_p[k]  = gg->V[k].id;
+      keys_n[k]  = dummy;
+      gg->V[k].K = 1;
+    } else {
+      keys_p[k]  = dummy;
+      keys_n[k]  = gg->V[k].id;
+      gg->V[k].K = 2;
+    }
+
+  }
+  
+}
+
+/*
+  utility method to update node community assignment after 
+  performing the fine-tuning step.
+ */
+void SpectralModularity::updateNodeComs( const int Ng,
+                                         int *keys_p,
+                                         int *keys_n,
+                                         const char *sign ){
+
+  int k,Ncomp,Ncomn;
+  
+
+  if( strcmp (sign,"splitP") == 0 ){
+
+    //--- get the maximum community number
+    Ncomp = MAXK  + 1;
+    MAXK  = Ncomp;
+    
+    if( PRINT ){ cout << "si[0] " << si[0] << endl; }
+    if( PRINT ){ cout << "> node list " << endl; }
+
+    for(k=0; k<Ng; k++){
+
+      if( si[k] > 0 ){
+        keys_p[k] = (int)keys_p[k];
+        keys_n[k] = dummy;
+        gg->V[ (int)keys_p[k] ].K = Ncomp;
+        if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_p[k]].label <<
+                             " c = "    << gg->V[ (int)keys_p[k]].K << endl; }
+      } else {
+        keys_n[k] = (int)keys_p[k];
+        keys_p[k] = dummy;
+        if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_n[k]].label <<
+                             " c =    " << gg->V[ (int)keys_n[k]].K << endl; }
+      }
+
+    }
+
+    } else {
+
+      //--- get the maximum community number
+      Ncomn = MAXK  + 1;
+      MAXK  = Ncomn;
+    
+      if( PRINT ){ cout << "si[0] " << si[0] << endl; }    
+      if( PRINT ){ cout << "> node list " << endl; }
+      
+      for(k=0; k<Ng; k++){
+	
+        if( si[k] < 0 ){
+          keys_n[k] = keys_n[k];
+          keys_p[k] = dummy;
+          gg->V[ (int)keys_n[k] ].K = Ncomn;
+          if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_n[k]].label <<
+                               " c =    " << gg->V[ (int)keys_n[k]].K << endl; }	  
+        } else {
+          keys_p[k] = keys_n[k];
+          keys_n[k] = dummy;
+          if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_p[k]].label <<
+                               " c =    " << gg->V[ (int)keys_p[k]].K << endl; }
+        }
+	
+      }
+  }	
+
+}
 
 /*
  Kronecker-delta function

@@ -45,8 +45,12 @@ class SpectralModularity {
   //global variable values  
   //static const bool PRINT = true;
   bool PRINT;
-  static const int dummy  = -1000;
-  //static const int NSIZE  = 5000;
+  static constexpr int    dummy  = -1000;
+  static constexpr int    DSIZE  = 20;
+  static constexpr int    MAXINT = 10000;
+  static constexpr double eTOL   = 0.00001;//0.0;
+  static constexpr double mTOL   = 0.00001;
+  
   //static const int MSIZE  = NSIZE * NSIZE;
 
   double tol;//the tolerance value, 10^-5; eigenvalues below this threshold are not used

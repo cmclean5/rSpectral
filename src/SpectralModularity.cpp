@@ -21,14 +21,14 @@ SpectralModularity::SpectralModularity() {
   this->specQ   = 0;
   this->NORM    = 0; 
   
-  this->tol     = 0.00001;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
+  this->tol     = mTOL;//0.00001;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
   this->MINCn   = 1;//The minimum cluster size
 
   this->MAXK    = 0;//Counter storing the maximum community number so far
 
-  opts.tol     = this->tol;//0;
-  opts.subdim  = 20;
-  opts.maxiter = 10000;
+  opts.tol     = eTOL;
+  opts.subdim  = DSIZE;
+  opts.maxiter = MAXINT;
   
   this->u            = 0;  
   this->usedBgi      = 0;
@@ -61,14 +61,14 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   this->specQ   = 0;
   this->NORM    = 0; 
 
-  this->tol     = 0.00001;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
+  this->tol     = mTOL;//0.00001;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
   this->MINCn   = 1;//The minimum cluster size
 
   this->MAXK    = 0;//Counter storing the maximum community number so far
 
-  opts.tol     = this->tol;//0;
-  opts.subdim  = 20;
-  opts.maxiter = 10000;
+  opts.tol     = eTOL;
+  opts.subdim  = DSIZE;
+  opts.maxiter = MAXINT;
 
   this->u            = 0;  
   this->usedBgi      = 0;
@@ -118,7 +118,7 @@ int SpectralModularity::calculateSpectralModularity(){
 
   double diff = deltaQ_old;
 
-  //--- Fine tuning stage to maximum deltaModularity for the initial split
+  //--- resize visited vector
   if( usedvisited == false ){
     visited = (int*)malloc(Ng*sizeof(int));
     usedvisited = true;
@@ -127,8 +127,13 @@ int SpectralModularity::calculateSpectralModularity(){
     visited = (int*)malloc(Ng*sizeof(int));
   }
   
-  //reset visited
+  //--- reset visited
   for(k=0; k<Ng; k++){ visited[k]=0; }
+
+  //--- update node community assignment
+  //updateNodeComs(Ng);
+  
+  //--- Fine tuning stage to maximum deltaModularity for the initial split
   while( diff > tol ){
 
     modifySplit( Ng );
@@ -299,7 +304,7 @@ void SpectralModularity::calculateEigenVectors(){
      status = arma::eigs_sym(eigvals, eigvecs, sMat, K, "la", opts); 
 
      //reset opts.subdim to default value
-     opts.subdim = 20;
+     opts.subdim = DSIZE;
      
      // store leading eigenvalue
      betai  = eigvals[0];
@@ -445,6 +450,7 @@ void SpectralModularity::modifySplit( int countmax ){
     GSI[(i*2)+j] = SI[(i*2)+j];
   }
 
+  //neighborNodeMove( qmax );
   maxModularity( qmax );
 
   while( count < countmax ){
@@ -464,6 +470,7 @@ void SpectralModularity::modifySplit( int countmax ){
     qold = qmax;
     qmax = 0.0;
 
+    //neighborNodeMove( qmax );
     maxModularity(qmax);
 
     count++;    
@@ -557,16 +564,15 @@ void SpectralModularity::neighborNodeMove(double &qmax){
      
   for(u=0; u<Ng; u++){
     
-    //qstored[u] = 0.0;
-        
-    if( visited[u] < 1 ){
-
+    if( visited[u] < 1 && qstored[u] == dummy ){
+           
       node_K = gg->V[u].K;
       
       for (i=0; i<gg->V[u].degree; i++) {
         v      = gg->V[u].E[i].target;
         neig_K = gg->V[v].K;
-        if( v != u && neig_K != node_K && visited[v] < 1 ){
+  
+        if( neig_K != node_K && visited[v] < 1 && qstored[v] == dummy ){
       
           Q  = 0.0;
       
@@ -574,9 +580,13 @@ void SpectralModularity::neighborNodeMove(double &qmax){
       
           qstored[v] = Q;
 
+        } else {
+          qstored[v] = 0;
         }
       }
 
+      qstored[u] = 0;
+                      
     }
 
   }
@@ -585,12 +595,12 @@ void SpectralModularity::neighborNodeMove(double &qmax){
   ind_max =  -1;//0; 
   for(k=0; k<Ng; k++){
 
-    if( qstored[k] != dummy ){
+    //if( qstored[k] != dummy ){
       if( qstored[k] > qmax ){
         qmax    = qstored[k];
         ind_max = k; 
       }
-    }
+      //}
 
   }
   
@@ -740,7 +750,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
     double diff = fabs(deltaQ_old);
     int count   = 0;
 
-    //--- Fine tuning stage to maximum deltaModularity for the initial split
+    //--- resize visited vector
     if( usedvisited == false ){
       visited = (int*)malloc(Ng*sizeof(int));
       usedvisited = true;
@@ -749,8 +759,13 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
       visited = (int*)malloc(Ng*sizeof(int));
     }
 
-    //reset visited
-    for(k=0; k<Ng; k++){ visited[k]=0; }
+    //--- reset visited vector
+    for(k=0; k<Ng; k++){ visited[k]=0; }    
+
+    //--- update node community assignment
+    //updateNodeComs(Ng);
+    
+    //--- Fine tuning stage to maximum deltaModularity for the initial split
     while( diff > tol ){
 
       modifySplit( Ng );
@@ -807,6 +822,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
   }
   
 }
+
 
 /*
   utility method to update node community assignment after 
@@ -980,9 +996,9 @@ void SpectralModularity::setPrint( bool status ){
 
 void SpectralModularity::setEignOpts( double tol, int subdim, int maxiter ){
 
-  if( tol < 0 || tol > 1 )           { tol=0; }
-  if( subdim > NR_Bgi )              { subdim = NR_Bgi; }
-  if( maxiter < 0 || maxiter > 10^8 ){ maxiter = 1000; }
+  if( tol < 0 || tol > 1 )            { tol=0; }
+  if( subdim > NR_Bgi )               { subdim = NR_Bgi; }
+  if( maxiter < 0 || maxiter > 1e8 )  { maxiter = 1000; }
 
   opts.tol     = tol;
   opts.subdim  = subdim;

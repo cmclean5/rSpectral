@@ -50,14 +50,14 @@ class SpectralModularity {
   static constexpr int    dummy  = -1000;
   static constexpr int    DSIZE  = 20;
   static constexpr int    MAXINT = 10000;
-  static constexpr double eTOL   = 0.00001;//0.0;
-  static constexpr double mTOL   = 0.00001;
+  static constexpr double eTOL   = 0.00001;
+  static constexpr double mTOL   = 0.00001;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
 
   //global variable values
   bool PRINT;
   bool fixNeig;
   
-  double tol;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
+  double tol;//the tolerance value, 10^-5; eigenvalues below 
   int MINCn;//The minimum cluster size
 
   network *gg;

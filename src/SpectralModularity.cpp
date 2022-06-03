@@ -93,9 +93,6 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   
   setupMatrices();
 
-  //if( fixNeig ){
-  //if( MINCn < 10 ){ MINCn=10; }
-  //}
   printOpts();
   
 }
@@ -1053,10 +1050,10 @@ void SpectralModularity::setMinCn( int NEWCn ){
 
   if( NEWCn > 0 && NEWCn <= gg->getN() ){
     MINCn = NEWCn;
-    //if( PRINT ){
+ 
     cout << "> manual set:" << endl;
     cout << "> Mincn Cn = " << MINCn << endl;
-    //}
+ 
   }
   
 }
@@ -1066,10 +1063,10 @@ void SpectralModularity::settol( double NEWtol ){
 
   if( NEWtol >= 0 ){
     tol = NEWtol;
-    //if( PRINT ){
+  
     cout << "> manual set:" << endl;
     cout << "> eig Tol = " << tol << endl;
-    //}
+  
   }
   
 }
@@ -1084,7 +1081,7 @@ void SpectralModularity::setPrint( bool status ){
 void SpectralModularity::printOpts( ){
 
   cout << "*** parameters set in spectral ****" << endl;
-  cout << "> netork        = ( " << gg->getN() << "," << M << ")" << endl;
+  cout << "> netork        = (" << gg->getN() << "," << M << ")" << endl;
   cout << "> print         = " << PRINT << endl;
   cout << "> fixNeig       = " << fixNeig << endl;
   cout << "> Mincn Cn      = " << MINCn << endl;
@@ -1101,10 +1098,7 @@ void SpectralModularity::setFixNeig( bool status ){
   
   cout << "> manual set:" << endl;
   cout << "> fixNeig = " << fixNeig << endl;
-  
-  //if( fixNeig ){
-  //if( MINCn < 10 ){ MINCn=10; }    
-  //}
+ 
 }
 
 

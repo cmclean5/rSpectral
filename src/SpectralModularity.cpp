@@ -564,7 +564,7 @@ void SpectralModularity::neighborNodeMove(double &qmax){
      
   for(u=0; u<Ng; u++){
     
-    if( visited[u] < 1 && qstored[u] == dummy ){
+    if( visited[u] < 1 && qstored[u] < 0 ){
            
       node_K = gg->V[u].K;
       
@@ -572,7 +572,7 @@ void SpectralModularity::neighborNodeMove(double &qmax){
         v      = gg->V[u].E[i].target;
         neig_K = gg->V[v].K;
   
-        if( neig_K != node_K && visited[v] < 1 && qstored[v] == dummy ){
+        if( neig_K != node_K && visited[v] < 1 && qstored[v] < 0 ){
       
           Q  = 0.0;
       
@@ -595,13 +595,11 @@ void SpectralModularity::neighborNodeMove(double &qmax){
   ind_max =  -1;//0; 
   for(k=0; k<Ng; k++){
 
-    //if( qstored[k] != dummy ){
-      if( qstored[k] > qmax ){
+    if( qstored[k] > qmax ){
         qmax    = qstored[k];
         ind_max = k; 
       }
-      //}
-
+    
   }
   
   if( ind_max != -1 ){
@@ -749,19 +747,10 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
 
     double diff = fabs(deltaQ_old);
     int count   = 0;
-
-    //--- resize visited vector
-    if( usedvisited == false ){
-      visited = (int*)malloc(Ng*sizeof(int));
-      usedvisited = true;
-    } else {
-      free(visited);
-      visited = (int*)malloc(Ng*sizeof(int));
-    }
-
+   
     //--- reset visited vector
-    for(k=0; k<Ng; k++){ visited[k]=0; }    
-
+    for(k=0; k<NR_Bgi; k++){ visited[k]=0; }
+    
     //--- update node community assignment
     //updateNodeComs(Ng);
     

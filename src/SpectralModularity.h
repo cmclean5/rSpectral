@@ -51,8 +51,6 @@ class SpectralModularity {
   static constexpr double eTOL   = 0.00001;//0.0;
   static constexpr double mTOL   = 0.00001;
   
-  //static const int MSIZE  = NSIZE * NSIZE;
-
   double tol;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
   int MINCn;//The minimum cluster size
 

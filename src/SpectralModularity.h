@@ -16,23 +16,27 @@ class SpectralModularity {
 
  public:
    SpectralModularity();
-  SpectralModularity(network *, edgelist *, double *, int, int, bool=false);
+  SpectralModularity(network *, edgelist *, double *, int, int, bool=false, bool=false);
   ~SpectralModularity();
   int calculateSpectralModularity();
-  void setMinCn( int );
-  void settol  ( double );
-  void setPrint( bool );
+  void setMinCn   ( int );
+  void settol     ( double );
+  void setPrint   ( bool );
+  void setFixNeig ( bool );
   void setEignOpts( double, int, int );
+  void printOpts  ();
   
  private:
   void calculateB( double *, int );
   int  delta( int, int );
   void split( double *, int, int *, const char* );
-  void updateNodeComs( const int, int *, int *, const char* );
+  void updateNodeComs  ( const int, int *, int *, const char* );
+  void setSplitNodeComs( const int, int *, int *, const char* );
   void updateNodeComs( const int );
   void deltaModularityMax( int, double & );
   void maxModularity( double & );
-  void neighborNodeMove( double & );
+  void fixNodes();
+  void fixNodes( int, int *, const char* );
   void modifySplit( int );
   void deltaModularity( double & );
   void maximiseIndexVectors();
@@ -42,14 +46,16 @@ class SpectralModularity {
   void freeSpace();
 
   
-  //global variable values  
-  //static const bool PRINT = true;
-  bool PRINT;
+  //global const variable values  
   static constexpr int    dummy  = -1000;
   static constexpr int    DSIZE  = 20;
   static constexpr int    MAXINT = 10000;
   static constexpr double eTOL   = 0.00001;//0.0;
   static constexpr double mTOL   = 0.00001;
+
+  //global variable values
+  bool PRINT;
+  bool fixNeig;
   
   double tol;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
   int MINCn;//The minimum cluster size

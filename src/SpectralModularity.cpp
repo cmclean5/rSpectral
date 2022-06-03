@@ -17,6 +17,7 @@ SpectralModularity::SpectralModularity() {
   this->M       = 0;
   this->usedBgi = false;
   this->PRINT   = false;
+  this->fixNeig = false;
 
   this->specQ   = 0;
   this->NORM    = 0; 
@@ -47,7 +48,8 @@ SpectralModularity::SpectralModularity() {
   this->usedkeys_n   = false;
 }
 
-SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, int N, int M, bool print ) {
+SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, int N, int M,
+                                        bool neigFix, bool print ) {
  
   this->gg      = gg;
   this->A       = A;
@@ -57,6 +59,7 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   this->M       = M;//number of edges
   this->usedBgi = false;
   this->PRINT   = print;//false;
+  this->fixNeig = neigFix;//false; 
   
   this->specQ   = 0;
   this->NORM    = 0; 
@@ -89,7 +92,12 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   assignSpace();
   
   setupMatrices();
-   
+
+  //if( fixNeig ){
+  //if( MINCn < 10 ){ MINCn=10; }
+  //}
+  printOpts();
+  
 }
 
 int SpectralModularity::calculateSpectralModularity(){
@@ -130,8 +138,13 @@ int SpectralModularity::calculateSpectralModularity(){
   //--- reset visited
   for(k=0; k<Ng; k++){ visited[k]=0; }
 
-  //--- update node community assignment
-  //updateNodeComs(Ng);
+  if( fixNeig ){
+    //--- update node community assignment
+    updateNodeComs(Ng);
+
+    //--- fix neighbouring nodes found in same community
+    fixNodes();
+  }
   
   //--- Fine tuning stage to maximum deltaModularity for the initial split
   while( diff > tol ){
@@ -450,7 +463,6 @@ void SpectralModularity::modifySplit( int countmax ){
     GSI[(i*2)+j] = SI[(i*2)+j];
   }
 
-  //neighborNodeMove( qmax );
   maxModularity( qmax );
 
   while( count < countmax ){
@@ -470,7 +482,6 @@ void SpectralModularity::modifySplit( int countmax ){
     qold = qmax;
     qmax = 0.0;
 
-    //neighborNodeMove( qmax );
     maxModularity(qmax);
 
     count++;    
@@ -506,7 +517,7 @@ void SpectralModularity::maxModularity(double &qmax){
     
     qstored[k] = 0.0;
   
-    if( visited[k] < 1 ){
+    if( visited[k] == 0 ){
 
       Q  = 0.0;
       
@@ -547,76 +558,100 @@ void SpectralModularity::maxModularity(double &qmax){
 
 
 /*
- Utility method used by the Spectral method to find 
- which neighboring node when moved, when in a different community from current node, 
- gives the maximum change in the Modularity value.
+ Utility method used by the Spectral method, to identify and fix neighbouring 
+ nodes which lie in the same community as current node of interest. 
  */
-void SpectralModularity::neighborNodeMove(double &qmax){
+void SpectralModularity::fixNodes(){
 
-  int u,v,i,k,Ng,ind_max,node_K,neig_K;
-  double Q;
+  int u,v,i,Ng,node_K,neig_K,sFixed;
   
   Ng = NR_Bgi;
-   
-  double qstored[Ng];
-  for(k=0; k<Ng; k++){ qstored[k]=dummy; }
-  Q = 0.0;
-     
+
+  sFixed=0;  
+  
   for(u=0; u<Ng; u++){
-    
-    if( visited[u] < 1 && qstored[u] < 0 ){
-           
-      node_K = gg->V[u].K;
+
+    node_K = gg->V[u].K;
       
       for (i=0; i<gg->V[u].degree; i++) {
         v      = gg->V[u].E[i].target;
         neig_K = gg->V[v].K;
-  
-        if( neig_K != node_K && visited[v] < 1 && qstored[v] < 0 ){
       
-          Q  = 0.0;
-      
-          deltaModularityMax( v, Q );      
-      
-          qstored[v] = Q;
-
-        } else {
-          qstored[v] = 0;
+        if( u != v && neig_K == node_K ){
+          visited[u] = 1;
+          visited[v] = 1;
         }
       }
+  }    
 
-      qstored[u] = 0;
-                      
+  if( PRINT ){
+    cout << "> fixNode summary:" << endl;
+    for( u=0; u<Ng; u++){
+      if( visited[u] == 1 ){ sFixed++; }
     }
+    
+    cout << "> fixed nodes: " << sFixed << ", free nodes: " << Ng-sFixed << endl;
+  }
+ 
+}
 
+/*
+ Utility method used by the Spectral method, to identify and fix neighbouring 
+ nodes which lie in the same community as current node of interest. 
+ */
+void SpectralModularity::fixNodes( int Nkeys, int* keys, const char *sign ){
+
+  int u,v,i,j,k,Ng,node_K,neig_K,sFixed;
+
+  Ng     = NR_Bgi;
+  sFixed = 0;  
+  
+  int *vIDs = (int*)malloc(Ng*sizeof(int));
+  int *vKs  = (int*)malloc(Ng*sizeof(int));
+  for( k=0; k<Ng; k++ ){ vIDs[k] = dummy; vKs[k] = dummy; }
+  
+  for(k=0, i=0; k<Nkeys; k++){
+    if(keys[k] != dummy){ vIDs[i++] = (int)keys[k]; }
   }
 
-  qmax    =   0;//qstored(0);
-  ind_max =  -1;//0; 
+  //update node community assignment give current split
+  setSplitNodeComs( Ng, vIDs, vKs, sign );
+  
   for(k=0; k<Ng; k++){
 
-    if( qstored[k] > qmax ){
-        qmax    = qstored[k];
-        ind_max = k; 
-      }
-    
-  }
-  
-  if( ind_max != -1 ){
-    visited[ind_max] = 1;
-    if( si[ind_max] == 1 ){
-      si[ind_max] = -1;
-      SI[(ind_max*2)+0] = 0;
-      SI[(ind_max*2)+1] = 1;
-    } else {
-      si[ind_max] = 1;
-      SI[(ind_max*2)+0] = 1;
-      SI[(ind_max*2)+1] = 0;
-    }
-  } 
-  
+    u      = vIDs[k];
+    node_K = vKs[u];
 
+    for (i=0; i<gg->V[u].degree; i++) {
+      v    = gg->V[u].E[i].target;
+
+      for( j=0; j<Ng; j++ ){ if( v==vIDs[j] ){ break; } }
+
+        if( j<= (Ng-1) ){
+          neig_K = vKs[j];                  
+          if( u != v && neig_K == node_K ){
+            visited[k] = 1;
+            visited[j] = 1;
+          }
+        }
+    }
+  }    
+
+  if( PRINT ){
+    cout << "> fixNode summary:" << endl;
+    for( u=0; u<Ng; u++){
+      if( visited[u] == 1 ){ sFixed++; }
+    }
+    
+    cout << "> fixed nodes: " << sFixed << ", free nodes: " << Ng-sFixed << endl;
+  }
+
+  //free memory
+  free(vIDs);
+  free(vKs);
+  
 }
+
 
 
 /*
@@ -720,7 +755,8 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
   //---
 
     
-  //--- Calculate the Modularity matrix Bgi for the new matrix Bgii
+  //--- Calculate the Modularity matrix Bgi for the new matrix Bgii...
+  //    value of NR_Bgi is reduced here.
   calculateB(Bgii, Ng);
 
   
@@ -747,13 +783,27 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
 
     double diff = fabs(deltaQ_old);
     int count   = 0;
-   
+
+    //--- Fine tuning stage to maximum deltaModularity for the initial split
+    if( usedvisited == false ){
+      visited = (int*)malloc(Ng*sizeof(int));
+      usedvisited = true;
+    } else {
+      free(visited);
+      visited = (int*)malloc(Ng*sizeof(int));
+    }
+    
     //--- reset visited vector
-    for(k=0; k<NR_Bgi; k++){ visited[k]=0; }
-    
-    //--- update node community assignment
-    //updateNodeComs(Ng);
-    
+    for(k=0; k<Ng; k++){ visited[k]=0; }
+
+
+    if( fixNeig ){       
+
+      //--- fix neighbouring nodes found in same community
+      fixNodes(NR_Bgiii, keys, sign);
+
+    }
+  
     //--- Fine tuning stage to maximum deltaModularity for the initial split
     while( diff > tol ){
 
@@ -839,6 +889,48 @@ void SpectralModularity::updateNodeComs( const int Ng ){
   }
   
 }
+
+/*
+  utility method to update node community assignment after 
+  performing the fine-tuning step.
+ */
+void SpectralModularity::setSplitNodeComs( const int Ng,
+                                           int *keys,
+                                           int *Ks,
+                                           const char *sign ){
+
+  int k;
+
+  if( strcmp (sign,"splitP") == 0 ){
+
+    for(k=0; k<Ng; k++){
+
+      if( si[k] > 0 ){
+        Ks[k] = 1;
+      } else {
+        Ks[k] = 2;
+      }
+
+    }
+    
+  } else {
+
+    for(k=0; k<Ng; k++){
+      
+      if( si[k] < 0 ){
+        Ks[k] = 1;
+      } else {
+        Ks[k] = 2;
+      }
+       
+    }
+
+  }
+  	
+
+}
+
+
 
 /*
   utility method to update node community assignment after 
@@ -961,7 +1053,10 @@ void SpectralModularity::setMinCn( int NEWCn ){
 
   if( NEWCn > 0 && NEWCn <= gg->getN() ){
     MINCn = NEWCn;
-    if( PRINT ){ cout << "> Min Cn = " << MINCn << endl; }
+    //if( PRINT ){
+    cout << "> manual set:" << endl;
+    cout << "> Mincn Cn = " << MINCn << endl;
+    //}
   }
   
 }
@@ -971,7 +1066,10 @@ void SpectralModularity::settol( double NEWtol ){
 
   if( NEWtol >= 0 ){
     tol = NEWtol;
-    if( PRINT ){ cout << "> tol = " << tol << endl; }
+    //if( PRINT ){
+    cout << "> manual set:" << endl;
+    cout << "> eig Tol = " << tol << endl;
+    //}
   }
   
 }
@@ -979,9 +1077,36 @@ void SpectralModularity::settol( double NEWtol ){
 void SpectralModularity::setPrint( bool status ){
 
   PRINT = status;
-  
-  
+  cout << "> manual set:" << endl;
+  cout << "> print = " << PRINT << endl;
 }
+
+void SpectralModularity::printOpts( ){
+
+  cout << "*** parameters set in spectral ****" << endl;
+  cout << "> netork        = ( " << gg->getN() << "," << M << ")" << endl;
+  cout << "> print         = " << PRINT << endl;
+  cout << "> fixNeig       = " << fixNeig << endl;
+  cout << "> Mincn Cn      = " << MINCn << endl;
+  cout << "> eig Tol       = " << eTOL << endl;
+  cout << "> arma::tol     = " << opts.tol << endl;
+  cout << "> arma::subdim  = " << opts.subdim << endl;
+  cout << "> arma::maxiter = " << opts.maxiter << endl;
+  cout << "************************************" << endl;
+}
+
+void SpectralModularity::setFixNeig( bool status ){
+
+  fixNeig = status;
+  
+  cout << "> manual set:" << endl;
+  cout << "> fixNeig = " << fixNeig << endl;
+  
+  //if( fixNeig ){
+  //if( MINCn < 10 ){ MINCn=10; }    
+  //}
+}
+
 
 void SpectralModularity::setEignOpts( double tol, int subdim, int maxiter ){
 

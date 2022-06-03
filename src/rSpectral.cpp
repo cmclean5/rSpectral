@@ -8,6 +8,7 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
                      Rcpp::IntegerVector CnMIN=1,
                      Rcpp::NumericVector TOL=0.00001,
                      Rcpp::IntegerVector names=1,
+                     Rcpp::IntegerVector fixNeig=0,
                      Rcpp::IntegerVector verbose=0){
   //Rcpp::List spectral( Rcpp::List params ){
 
@@ -45,6 +46,7 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
   bool useLoops    = false;
   bool checkM      = true;
   bool print       = false;
+  bool neigFix     = false;
   int alphaNumeric = 1;
 
   //initialise network
@@ -80,6 +82,12 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
       }
     }
 
+    if( fixNeig.length() == 1 ){
+      if( fixNeig[0] == 1 ){
+        neigFix = 1;
+      }
+    }
+    
     if( verbose.length() == 1 ){
       if( verbose[0] == 1 ){
         print = 1;
@@ -151,7 +159,7 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
     if( N != 0 && M != 0 ){
 
       //set-up clustering alg.
-      model = new SpectralModularity(gg,el,A,N,M,print);
+      model = new SpectralModularity(gg,el,A,N,M,neigFix,print);
       //model->setPrint(print);
       model->settol( tol );
       model->setMinCn( Cn_min );

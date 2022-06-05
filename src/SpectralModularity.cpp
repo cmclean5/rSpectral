@@ -4,10 +4,7 @@
   Use of the stack for memory allocation. This 
  should be faster for large networks, but will need to reset NSIZE 
  large enough for your network size, and then re-Make. 
-
  */
-
-
 SpectralModularity::SpectralModularity() { 
   
   this->A       = 0;
@@ -17,6 +14,7 @@ SpectralModularity::SpectralModularity() {
   this->M       = 0;
   this->usedBgi = false;
   this->PRINT   = false;
+  this->SUMMARY = false;
   this->fixNeig = false;
 
   this->specQ   = 0;
@@ -49,7 +47,7 @@ SpectralModularity::SpectralModularity() {
 }
 
 SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, int N, int M,
-                                        bool neigFix, bool print ) {
+                                        bool neigFix, bool print, bool summary ) {
  
   this->gg      = gg;
   this->A       = A;
@@ -59,6 +57,7 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   this->M       = M;//number of edges
   this->usedBgi = false;
   this->PRINT   = print;//false;
+  this->SUMMARY = summary;
   this->fixNeig = neigFix;//false; 
   
   this->specQ   = 0;
@@ -1050,10 +1049,10 @@ void SpectralModularity::setMinCn( int NEWCn ){
 
   if( NEWCn > 0 && NEWCn <= gg->getN() ){
     MINCn = NEWCn;
- 
-    cout << "> manual set:" << endl;
-    cout << "> Mincn Cn = " << MINCn << endl;
- 
+    if( SUMMARY ){
+      cout << "> manual set:" << endl;
+      cout << "> Mincn Cn = " << MINCn << endl;
+    }
   }
   
 }
@@ -1063,10 +1062,10 @@ void SpectralModularity::settol( double NEWtol ){
 
   if( NEWtol >= 0 ){
     tol = NEWtol;
-  
-    cout << "> manual set:" << endl;
-    cout << "> eig Tol = " << tol << endl;
-  
+    if( SUMMARY ){
+      cout << "> manual set:" << endl;
+      cout << "> eig Tol = " << tol << endl;
+    }
   }
   
 }
@@ -1074,12 +1073,25 @@ void SpectralModularity::settol( double NEWtol ){
 void SpectralModularity::setPrint( bool status ){
 
   PRINT = status;
-  cout << "> manual set:" << endl;
-  cout << "> print = " << PRINT << endl;
+  if( SUMMARY ){
+    cout << "> manual set:" << endl;
+    cout << "> print = " << PRINT << endl;
+  }
 }
+
+void SpectralModularity::setSummary( bool status ){
+
+  SUMMARY = status;
+  if( SUMMARY ){
+    cout << "> manual set:" << endl;
+    cout << "> summary = " << SUMMARY << endl;
+  }
+}
+
 
 void SpectralModularity::printOpts( ){
 
+  if( SUMMARY ){
   cout << "*** parameters set in spectral ****" << endl;
   cout << "> netork        = (" << gg->getN() << "," << M << ")" << endl;
   cout << "> print         = " << PRINT << endl;
@@ -1090,15 +1102,17 @@ void SpectralModularity::printOpts( ){
   cout << "> arma::subdim  = " << opts.subdim << endl;
   cout << "> arma::maxiter = " << opts.maxiter << endl;
   cout << "************************************" << endl;
-}
+  }
 
+}
+  
 void SpectralModularity::setFixNeig( bool status ){
 
   fixNeig = status;
-  
-  cout << "> manual set:" << endl;
-  cout << "> fixNeig = " << fixNeig << endl;
- 
+  if( SUMMARY ){
+    cout << "> manual set:" << endl;
+    cout << "> fixNeig = " << fixNeig << endl;
+  }
 }
 
 

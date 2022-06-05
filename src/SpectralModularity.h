@@ -6,7 +6,6 @@
   Use of the stack for memory allocation. This 
  should be faster for large networks, but will need to reset NSIZE 
  large enough for your network size, and then re-Make. 
-
  */
 
 #include "Headers.h"
@@ -16,12 +15,13 @@ class SpectralModularity {
 
  public:
    SpectralModularity();
-  SpectralModularity(network *, edgelist *, double *, int, int, bool=false, bool=false);
+  SpectralModularity(network *, edgelist *, double *, int, int, bool=false, bool=false, bool=false);
   ~SpectralModularity();
   int calculateSpectralModularity();
   void setMinCn   ( int );
   void settol     ( double );
   void setPrint   ( bool );
+  void setSummary ( bool );
   void setFixNeig ( bool );
   void setEignOpts( double, int, int );
   void printOpts  ();
@@ -55,6 +55,7 @@ class SpectralModularity {
 
   //global variable values
   bool PRINT;
+  bool SUMMARY;
   bool fixNeig;
   
   double tol;//the tolerance value, 10^-5; eigenvalues below 

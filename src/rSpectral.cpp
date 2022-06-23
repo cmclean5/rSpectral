@@ -51,10 +51,11 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
   bool neigFix     = false;
   int alphaNumeric = 1;
 
-  //initialise network
+  //initialise c++ object for network
   readfile *reader          = 0;
   network *gg               = new network();
   SpectralModularity *model = 0;
+  string *DATASET           = 0;
 
 
   int ncols = DF.length();
@@ -64,7 +65,8 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
 
     //set size for our DATASET
     KK              = nrows*ncols;
-    string *DATASET = new string[KK];
+    DATASET         = new string[KK];
+    //string *DATASET = new string[KK];
     
     if( CnMIN.length() == 1 ){
       if( (CnMIN[0] > 0) ){
@@ -198,6 +200,11 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
       Coms[i] = gg->V[i].K;
     }
 
+    // delete c++ objects
+    if( gg      != 0 ){ delete gg; }
+    if( reader  != 0 ){ delete reader; }
+    if( model   != 0 ){ delete model; }
+        
     // Create a named list with the above quantities
     return Rcpp::List::create(Rcpp::Named("ID") = ID,
 			      Rcpp::Named("K")  = Coms);

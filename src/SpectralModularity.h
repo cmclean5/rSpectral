@@ -81,15 +81,7 @@ class SpectralModularity {
   int    *si;
   int    *visited;
   int    *keys_p;
-  int    *keys_n;
-
-  bool usedu;  
-  bool usedBgi_temp;
-  bool usedSI;
-  bool usedsi;
-  bool usedvisited;
-  bool usedkeys_p;
-  bool usedkeys_n;
+  int    *keys_n; 
   
   arma::eigs_opts opts;
   

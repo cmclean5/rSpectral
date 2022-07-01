@@ -11,6 +11,9 @@ vertex::vertex() : edge(){
   Nk    =0;
   Ns    =0;
   PRINT =false;
+
+  Kprobs=0;
+  Nsamples=0;
   
 }
 
@@ -87,7 +90,8 @@ void vertex::assignKprobs( int _Nk ){
 void vertex::freeNsamples(){
 
   //if(Nsamples!=0 && Ns!=0) free(Nsamples);
-  if(Nsamples!=0 && Ns!=0){ delete[] Nsamples; }
+  //if(Nsamples!=0 && Ns!=0){ delete[] Nsamples; }
+  if( Nsamples!=0 ){ delete[] Nsamples; }
 
   Ns = 0;
 
@@ -96,7 +100,8 @@ void vertex::freeNsamples(){
 void vertex::freeKprobs(){
 
   //if(Kprobs!=0 && Nk!=0) free(Kprobs);
-  if(Kprobs!=0 && Nk!=0){ delete[] Kprobs; }
+  //if(Kprobs!=0 && Nk!=0){ delete[] Kprobs; }
+  if( Kprobs!=0 ){ delete[] Kprobs; }
 
   Nk = 0;
 

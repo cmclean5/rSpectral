@@ -7,12 +7,12 @@
  */
 SpectralModularity::SpectralModularity() { 
   
-  this->A       = 0;
-  this->Bgi     = 0;
+  this->A       = nullptr;
+  this->Bgi     = nullptr;
+  this->Bgi_temp= nullptr;
   this->NR_Bgi  = 0;
   this->NC_Bgi  = 0;
   this->M       = 0;
-  this->usedBgi = false;
   this->PRINT   = false;
   this->SUMMARY = false;
   this->fixNeig = false;
@@ -29,21 +29,13 @@ SpectralModularity::SpectralModularity() {
   opts.subdim  = DSIZE;
   opts.maxiter = MAXINT;
   
-  this->u            = 0;  
-  this->usedBgi      = 0;
-  this->SI           = 0;
-  this->si           = 0;
-  this->visited      = 0;
-  this->keys_p       = 0;
-  this->keys_n       = 0;
+  this->u            = nullptr;  
+  this->SI           = nullptr;
+  this->si           = nullptr;
+  this->visited      = nullptr;
+  this->keys_p       = nullptr;
+  this->keys_n       = nullptr;
 
-  this->usedu        = false;
-  this->usedBgi_temp = false;
-  this->usedSI       = false;
-  this->usedsi       = false;
-  this->usedvisited  = false;
-  this->usedkeys_p   = false;
-  this->usedkeys_n   = false;
 }
 
 SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, int N, int M,
@@ -51,11 +43,11 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
  
   this->gg      = gg;
   this->A       = A;
-  this->Bgi     = 0;
+  this->Bgi     = nullptr;
+  this->Bgi_temp= nullptr;
   this->NR_Bgi  = N;//set initial rows for Bgi
   this->NC_Bgi  = N;//set initial cols for Bgi
   this->M       = M;//number of edges
-  this->usedBgi = false;
   this->PRINT   = print;//false;
   this->SUMMARY = summary;
   this->fixNeig = neigFix;//false; 
@@ -72,22 +64,13 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   opts.subdim  = DSIZE;
   opts.maxiter = MAXINT;
 
-  this->u            = 0;  
-  this->usedBgi      = 0;
-  this->SI           = 0;
-  this->si           = 0;
-  this->visited      = 0;
-  this->keys_p       = 0;
-  this->keys_n       = 0;
+  this->u            = nullptr;  
+  this->SI           = nullptr;
+  this->si           = nullptr;
+  this->visited      = nullptr;
+  this->keys_p       = nullptr;
+  this->keys_n       = nullptr;
 
-  this->usedu        = false;
-  this->usedBgi_temp = false;
-  this->usedSI       = false;
-  this->usedsi       = false;
-  this->usedvisited  = false;
-  this->usedkeys_p   = false;
-  this->usedkeys_n   = false;
-    
   assignSpace();
   
   setupMatrices();
@@ -123,9 +106,8 @@ int SpectralModularity::calculateSpectralModularity(){
   double diff = deltaQ_old;
 
   //--- resize visited vector
-  if( usedvisited == false ){
+  if( visited == nullptr ){
     visited = (int*)malloc(Ng*sizeof(int));
-    usedvisited = true;
   } else {
     free(visited);
     visited = (int*)malloc(Ng*sizeof(int));
@@ -188,21 +170,21 @@ SpectralModularity::~SpectralModularity(){ freeSpace(); }
 
 void SpectralModularity::freeSpace(){
 
-  if( Bgi      !=0 && usedBgi  == true ){ free(Bgi);   }
+  if( Bgi != nullptr ){ free(Bgi);   }
 
-  if( Bgi_temp !=0 && usedBgi_temp  == true ){ free(Bgi_temp);   } 
+  if( Bgi_temp != nullptr ){ free(Bgi_temp);   } 
 
-  if( u !=0 && usedu == true ){ free(u); }
+  if( u != nullptr ){ free(u); }
 
-  if( SI !=0 && usedSI == true ){ free(SI); }
+  if( SI != nullptr ){ free(SI); }
 
-  if( si !=0 && usedsi == true ){ free(si); }
+  if( si != nullptr ){ free(si); }
 
-  if( visited !=0 && usedvisited == true ){ free(visited); }
+  if( visited != nullptr ){ free(visited); }
 
-  if( keys_p !=0 && usedkeys_p == true ){ free(keys_p); }
+  if( keys_p != nullptr ){ free(keys_p); }
 
-  if( keys_n !=0 && usedkeys_n == true ){ free(keys_n); }
+  if( keys_n != nullptr ){ free(keys_n); }
 }
 
 
@@ -212,23 +194,40 @@ void SpectralModularity::assignSpace(){
 
   Ng = NR_Bgi;
   KK = Ng * Ng;
-  
-  Bgi       = (double*)malloc(KK*sizeof(double));
-  usedBgi   = true;
+
+  if( Bgi != nullptr ){
+    free(Bgi);
+    Bgi       = (double*)malloc(KK*sizeof(double));
+  } else {
+    Bgi       = (double*)malloc(KK*sizeof(double));
+  }
   
   //make a copy of Bgi to pass to splitP/N
-  Bgi_temp     = (double*)malloc(KK*sizeof(double));
-  usedBgi_temp = true;
+  if( Bgi_temp != nullptr ){
+    free(Bgi_temp);
+    Bgi_temp     = (double*)malloc(KK*sizeof(double));
+  } else {
+    Bgi_temp     = (double*)malloc(KK*sizeof(double));
+  }
   
   for(k=0; k<KK; k++){
     Bgi[k]      = 0.0;
     Bgi_temp[k] = 0.0;
   }
-  
-  keys_p     = (int*)malloc(Ng*sizeof(int));
-  keys_n     = (int*)malloc(Ng*sizeof(int));
-  usedkeys_p = true;
-  usedkeys_n = true;
+
+  if( keys_p != nullptr ){
+    free(keys_p);
+    keys_p     = (int*)malloc(Ng*sizeof(int));
+  } else {
+    keys_p     = (int*)malloc(Ng*sizeof(int));
+  }
+
+  if( keys_n != nullptr ){
+    free(keys_n);
+    keys_n     = (int*)malloc(Ng*sizeof(int));
+  } else {  
+    keys_n     = (int*)malloc(Ng*sizeof(int));
+  }
   
   for(k=0; k<Ng; k++){
     keys_p[k] = 0;
@@ -289,9 +288,8 @@ void SpectralModularity::calculateEigenVectors(){
   status = 0;
 
   //reset eigenvector container 
-  if( usedu == false ){
+  if( u == nullptr ){
     u = (double*)malloc(Ng*sizeof(double));
-    usedu = true;
   } else {
     free(u);
     u = (double*)malloc(Ng*sizeof(double));
@@ -349,17 +347,15 @@ void SpectralModularity::maximiseIndexVectors(){
   KK = 2*Ng;
 
   //set size of index vectors
-  if( usedsi == false ){
+  if( si == nullptr ){
     si = (int*)malloc(Ng*sizeof(int));
-    usedsi = true;
   } else {
     free(si);
     si = (int*)malloc(Ng*sizeof(int));
   }
 
-  if( usedSI == false ){
+  if( SI == nullptr ){
     SI = (int*)malloc(KK*sizeof(int));
-    usedSI = true;
   } else {
     free(SI);
     SI = (int*)malloc(KK*sizeof(int));
@@ -599,24 +595,40 @@ void SpectralModularity::fixNodes( int Nkeys, int* keys, const char *sign ){
 
   int u,v,i,j,k,Ng,node_K,neig_K,sFixed;
 
+  int *vIDs = nullptr;
+  int *vKs  = nullptr;
+  
   Ng     = NR_Bgi;
   sFixed = 0;  
+
+  if( vIDs != nullptr ){
+    free(vIDs);
+    vIDs = (int*)malloc(Ng*sizeof(int));
+  } else {
+    vIDs = (int*)malloc(Ng*sizeof(int));
+  }
+
+  if( vKs != nullptr ){
+    free(vKs);
+    vKs  = (int*)malloc(Ng*sizeof(int));
+  } else {
+    vKs  = (int*)malloc(Ng*sizeof(int));
+  }
   
-  int *vIDs = (int*)malloc(Ng*sizeof(int));
-  int *vKs  = (int*)malloc(Ng*sizeof(int));
   for( k=0; k<Ng; k++ ){ vIDs[k] = dummy; vKs[k] = dummy; }
   
   for(k=0, i=0; k<Nkeys; k++){
     if(keys[k] != dummy){ vIDs[i++] = (int)keys[k]; }
   }
-
+  
   //update node community assignment give current split
   setSplitNodeComs( Ng, vIDs, vKs, sign );
-  
+
+
   for(k=0; k<Ng; k++){
 
     u      = vIDs[k];
-    node_K = vKs[u];
+    node_K = vKs[k];
 
     for (i=0; i<gg->V[u].degree; i++) {
       v    = gg->V[u].E[i].target;
@@ -643,8 +655,8 @@ void SpectralModularity::fixNodes( int Nkeys, int* keys, const char *sign ){
   }
 
   //free memory
-  free(vIDs);
-  free(vKs);
+  if( vIDs != nullptr ){ free(vIDs); }
+  if( vKs != nullptr  ){ free(vKs);  }  
   
 }
 
@@ -699,6 +711,10 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
 
 
   int k,i,j,p,Ng,KK,KKin;
+
+  double *Bgii = nullptr;
+  int *keysi_p = nullptr;
+  int *keysi_n = nullptr;
   
   if( PRINT ){ cout << "> In " << sign << " method... " << endl; }
 
@@ -714,8 +730,14 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
   if( PRINT ){ cout << "> Ng = " << Ng << ". " << endl; }
 
   //--- creates a new Ng x Ng matrix Bgii from Bgiii
-  KK = Ng * Ng;  
-  double *Bgii = (double*)malloc(KK*sizeof(double));
+  KK = Ng * Ng;
+  if( Bgii != nullptr ){
+    free(Bgii);
+    Bgii = (double*)malloc(KK*sizeof(double));
+  } else {
+    Bgii = (double*)malloc(KK*sizeof(double));
+  }
+  
   for( k=0; k<KK; k++ ){ Bgii[k] = 0; }
   
   
@@ -731,8 +753,20 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
 
     
   //--- filter out dummy values from keys
-  int *keysi_p = (int*)malloc(Ng*sizeof(int));
-  int *keysi_n = (int*)malloc(Ng*sizeof(int));
+  if( keysi_p != nullptr ){
+    free(keysi_p);
+    keysi_p = (int*)malloc(Ng*sizeof(int));
+  } else {
+    keysi_p = (int*)malloc(Ng*sizeof(int));
+  }
+
+  if( keysi_n != nullptr ){
+    free(keysi_n);    
+    keysi_n = (int*)malloc(Ng*sizeof(int));
+  } else {
+    keysi_n = (int*)malloc(Ng*sizeof(int));
+  }
+  
   for( k=0; k<Ng; k++ ){
     keysi_p[k] = dummy;
     keysi_n[k] = dummy;
@@ -781,9 +815,9 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
     int count   = 0;
 
     //--- Fine tuning stage to maximum deltaModularity for the initial split
-    if( usedvisited == false ){
+    //if( usedvisited == false ){
+    if( visited == nullptr ){
       visited = (int*)malloc(Ng*sizeof(int));
-      usedvisited = true;
     } else {
       free(visited);
       visited = (int*)malloc(Ng*sizeof(int));
@@ -828,9 +862,9 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
       if( PRINT ){ cout << "> Stop splitting. " << endl; }
 
       //free memory
-      free(Bgii);
-      free(keysi_p);
-      free(keysi_n);    
+      if( Bgii    != nullptr ){ free(Bgii);    }
+      if( keysi_p != nullptr ){ free(keysi_p); }
+      if( keysi_n != nullptr ){ free(keysi_n); }
       
       return;
 
@@ -845,13 +879,18 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
     //--- Recursively split the group of negative eigenvector nodes    
     split( Bgii, Ng, keysi_n, "splitN" );
 
+    //free memory
+    if( Bgii    != nullptr ){ free(Bgii);    }
+    if( keysi_p != nullptr ){ free(keysi_p); }
+    if( keysi_n != nullptr ){ free(keysi_n); }
+    
   } else {
     if( PRINT ){ cout << "> Stop splitting. " << endl; }
 
-    //free memory
-    free(Bgii);
-    free(keysi_p);
-    free(keysi_n);
+     //free memory
+    if( Bgii    != nullptr ){ free(Bgii);    }
+    if( keysi_p != nullptr ){ free(keysi_p); }
+    if( keysi_n != nullptr ){ free(keysi_n); }
     
     return; 
   }
@@ -901,7 +940,7 @@ void SpectralModularity::setSplitNodeComs( const int Ng,
 
     for(k=0; k<Ng; k++){
 
-      if( si[k] > 0 ){
+      if( keys[k] > 0 ){
         Ks[k] = 1;
       } else {
         Ks[k] = 2;
@@ -913,7 +952,7 @@ void SpectralModularity::setSplitNodeComs( const int Ng,
 
     for(k=0; k<Ng; k++){
       
-      if( si[k] < 0 ){
+      if( keys[k] < 0 ){
         Ks[k] = 1;
       } else {
         Ks[k] = 2;
@@ -1012,8 +1051,8 @@ int SpectralModularity::delta( int i, int j){ return (i == j ) ? 1 : 0; }
   Ng = NR_B;
   KK = Ng * Ng;
   
-  if( Bgi != 0 && usedBgi == true ){
-
+  if( Bgi != nullptr ){
+    
     free(Bgi);
 
     Bgi = (double*)malloc(KK*sizeof(double));
@@ -1028,8 +1067,6 @@ int SpectralModularity::delta( int i, int j){ return (i == j ) ? 1 : 0; }
     NR_Bgi = Ng;
     NC_Bgi = Ng;
     
-    usedBgi = true;
-
   }
 
   for(i=0; i<Ng; i++){

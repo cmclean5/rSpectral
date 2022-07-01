@@ -1,3 +1,6 @@
 useDynLib(rSpectral)
 importFrom(Rcpp,evalCpp)
-export(spectral)
+export(load_data,
+       spectral,
+       membership,
+       freeSpace)

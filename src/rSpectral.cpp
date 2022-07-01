@@ -3,15 +3,112 @@
 #include "readfile.h"
 #include "SpectralModularity.h"
 
+// global
+readfile *reader          = nullptr;
+string *dataset           = nullptr;
+network *gg               = nullptr;
+SpectralModularity *model = nullptr;
+
 // [[Rcpp::export]]
-Rcpp::List spectral( Rcpp::DataFrame     DF,
-                     Rcpp::IntegerVector CnMIN=1,
-                     Rcpp::NumericVector TOL=0.00001,
-                     Rcpp::IntegerVector names=1,
-                     Rcpp::IntegerVector fixNeig=0,
-                     Rcpp::IntegerVector verbose=0,
-                     Rcpp::IntegerVector summary=0){
-  //Rcpp::List spectral( Rcpp::List params ){
+ void freeSpace(){
+
+   // delete c++ objects
+   if( gg      != nullptr ){ delete gg; }
+   if( reader  != nullptr ){ delete reader; }
+   if( dataset != nullptr ){ delete[] dataset; }
+   
+ }
+
+
+// [[Rcpp::export]]
+void load_data ( Rcpp::DataFrame     df,
+                 Rcpp::IntegerVector names=1 ){
+
+  int i,j,k,KK;
+ 
+  bool useLoops    = false;
+  bool checkM      = true;   
+  int alphaNumeric = 1;
+
+  int ncols = df.length();
+  int nrows = df.nrows();
+
+  if( (ncols > 0) && (nrows > 0) ){
+    
+    if( (names.length() == 1) ){
+      if( names[0] == 0 ){
+      	alphaNumeric = 0;
+      }
+    }    
+    
+    //set size for our dataset
+    KK              = nrows*ncols;
+    dataset         = new string[KK];
+      
+    
+    if( ncols == 2 ){
+      //unweighted networks
+      
+      Rcpp::StringVector       V1 = df[0];
+      Rcpp::StringVector       V2 = df[1];
+      
+      for(k=0; k<KK; k++){
+        i = floor(k/ncols);
+        j = k % ncols;
+
+        Rcpp::String v1(V1[i]);
+        Rcpp::String v2(V2[i]);
+	
+        if( j == 0 ){ dataset[(i*ncols)+j] = v1.get_cstring(); }
+        if( j == 1 ){ dataset[(i*ncols)+j] = v2.get_cstring(); }
+	
+      }    
+      
+    }
+
+    if( ncols == 3 ){
+      //for moment, lets not considering weighted.
+      
+      Rcpp::StringVector       V1 = df[0];
+      Rcpp::StringVector       V2 = df[1];
+      Rcpp::StringVector       V3 = df[2];
+      
+      for(k=0; k<KK; k++){
+        i = floor(k/ncols);
+        j = k % ncols;
+
+        Rcpp::String v1(V1[i]);
+        Rcpp::String v2(V2[i]);
+        Rcpp::String v3(V3[i]);
+        
+        if( j == 0 ){ dataset[(i*ncols)+j] = v1.get_cstring(); }
+        if( j == 1 ){ dataset[(i*ncols)+j] = v2.get_cstring(); }
+        if( j == 2 ){ dataset[(i*ncols)+j] = v3.get_cstring(); }
+	
+      }    
+      
+    }
+    
+    
+    //load edgelist into network
+    gg     = new network();
+    reader = new readfile( gg, dataset, ncols, nrows, alphaNumeric );
+
+    //build Adjaceny Matrix    
+    gg->buildNetworkReps( useLoops, checkM );
+   
+  
+  }
+
+}//load_data
+
+// [[Rcpp::export]]
+void spectral( Rcpp::IntegerVector Cn_min=1,
+               Rcpp::NumericVector tol=0.00001,
+               Rcpp::IntegerVector names=1,
+               Rcpp::IntegerVector fix_neig=0,
+               Rcpp::IntegerVector verbose=0,
+               Rcpp::IntegerVector summary=0){
 
   //For more information wrapping and packaging C/C++ in R see:
   //[1] https://www.gormanalysis.com/blog/exposing-a-cpp-student-class-with-rcpp/ (building R package and adding your C/C++ code)
@@ -38,46 +135,29 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
 
   int i,j,k,KK;
 
-  int Cn_min       = 1;
-  double tol       = 0.00001;
+  int CnMIN        = 1;
+  double TOL       = 0.00001;
   int N            = 0;
   int M            = 0;
-  double *A        = 0;
-  edgelist *el     = 0;
-  bool useLoops    = false;
-  bool checkM      = true;
+  double *A        = nullptr;
+  edgelist *el     = nullptr;
   bool print       = false;
   bool modelSummary= false;
   bool neigFix     = false;
   int alphaNumeric = 1;
 
-  //initialise c++ object for network
-  readfile *reader          = 0;
-  network *gg               = new network();
-  SpectralModularity *model = 0;
-  string *DATASET           = 0;
-
-
-  int ncols = DF.length();
-  int nrows = DF.nrows();
-
-  if( (ncols > 0) && (nrows > 0) ){
-
-    //set size for our DATASET
-    KK              = nrows*ncols;
-    DATASET         = new string[KK];
-    //string *DATASET = new string[KK];
+  if( gg != nullptr ){    
     
-    if( CnMIN.length() == 1 ){
-      if( (CnMIN[0] > 0) ){
-	Cn_min = CnMIN[0];
+    if( Cn_min.length() == 1 ){
+      if( (Cn_min[0] > 0) ){
+        CnMIN = Cn_min[0];
       }
     }
 
-    if( (TOL.length() == 1) ){
-      if( (TOL[0] > 0) ){
-	  tol = TOL[0];
-	}
+    if( (tol.length() == 1) ){
+      if( (tol[0] > 0) ){
+        TOL = tol[0];
+      }
     }
 
     if( (names.length() == 1) ){
@@ -86,8 +166,8 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
       }
     }
 
-    if( fixNeig.length() == 1 ){
-      if( fixNeig[0] == 1 ){
+    if( fix_neig.length() == 1 ){
+      if( fix_neig[0] == 1 ){
         neigFix = 1;
       }
     }
@@ -103,63 +183,7 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
          modelSummary = 1;
       }
     }
-
-    
-    if( ncols == 2 ){
-      //unweighted networks
-      
-      Rcpp::StringVector       V1 = DF[0];
-      Rcpp::StringVector       V2 = DF[1];
-      
-      for(k=0; k<KK; k++){
-	i = floor(k/ncols);
-	j = k % ncols;
-
-	Rcpp::String v1(V1[i]);
-	Rcpp::String v2(V2[i]);
-	
-	//string s1 = Rcpp::as< std::string >(V1(i)); 
-	//string s2 = Rcpp::as< std::string >(V2(i));
-	
-	if( j == 0 ){ DATASET[(i*ncols)+j] = v1.get_cstring(); }
-	if( j == 1 ){ DATASET[(i*ncols)+j] = v2.get_cstring(); }
-	
-      }    
-      
-    }
-
-    if( ncols == 3 ){
-      //for moment, lets not considering weighted.
-      
-      Rcpp::StringVector       V1 = DF[0];
-      Rcpp::StringVector       V2 = DF[1];
-      Rcpp::StringVector       V3 = DF[2];
-      
-      for(k=0; k<KK; k++){
-	i = floor(k/ncols);
-	j = k % ncols;
-
-	Rcpp::String v1(V1[i]);
-	Rcpp::String v2(V2[i]);
-	Rcpp::String v3(V3[i]);
-	
-	if( j == 0 ){ DATASET[(i*ncols)+j] = v1.get_cstring(); }
-	if( j == 1 ){ DATASET[(i*ncols)+j] = v2.get_cstring(); }
-	if( j == 2 ){ DATASET[(i*ncols)+j] = v3.get_cstring(); }
-	
-      }    
-      
-    }
-
-    
-    
-    //load edgelist into network
-    reader = new readfile( gg, DATASET, ncols, nrows, alphaNumeric );
-
-    //build Adjaceny Matrix
-    gg->buildNetworkReps( useLoops, checkM );
-    //---
-
+     
     N = gg->getN();
     M = gg->getM2();
     A = gg->getA();
@@ -172,8 +196,8 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
       //set-up clustering alg.
       model = new SpectralModularity(gg,el,A,N,M,neigFix,print,modelSummary);
       //model->setPrint(print);
-      model->settol( tol );
-      model->setMinCn( Cn_min );
+      model->settol( TOL );
+      model->setMinCn( CnMIN );
       
       //--- run spectral clustering
       int cal = model->calculateSpectralModularity();
@@ -186,11 +210,28 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
 
   }
 
+  // delete model
+  if( model != nullptr ){ delete model; }
   
+}//spectral
+
+// [[Rcpp::export]]
+ Rcpp::List membership( Rcpp::IntegerVector detach_graph=1 ){
+
+   int i,N,detach;
+
+   detach = 1;
+   
   if( gg->getN() > 0 ){
+
+    if( detach_graph.length() == 1 ){
+      if( detach_graph[0] == 0 ){
+         detach = 0;
+      }
+    }     
     
     N = gg->getN();
-
+    
     //--- output the node label and its cluster
     Rcpp::StringVector  ID   (N);
     Rcpp::NumericVector Coms (N);
@@ -198,13 +239,12 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
     for( i=0; i<N; i++ ){
       ID[i]   = gg->V[i].label;
       Coms[i] = gg->V[i].K;
-    }
+    }   
 
-    // delete c++ objects
-    if( gg      != 0 ){ delete gg; }
-    if( reader  != 0 ){ delete reader; }
-    if( model   != 0 ){ delete model; }
-        
+
+    //detach graph
+    if( detach ){ freeSpace(); }
+    
     // Create a named list with the above quantities
     return Rcpp::List::create(Rcpp::Named("ID") = ID,
 			      Rcpp::Named("K")  = Coms);
@@ -222,5 +262,4 @@ Rcpp::List spectral( Rcpp::DataFrame     DF,
     }
 
 
-}//spectral
-
+ }//membership

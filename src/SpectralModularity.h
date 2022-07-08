@@ -23,11 +23,11 @@ class SpectralModularity {
   int calculateSpectralModularity();
   void setMinCn   ( int );
   void settol     ( double );
-  void setPrint   ( bool );
+  // void setPrint   ( bool );
   // void setSummary ( bool );
   void setFixNeig ( bool );
   void setEignOpts( double, int, int );
-  void printOpts  ();
+  // void printOpts  ();
   
  private:
   void calculateB( double *, int );
@@ -57,8 +57,8 @@ class SpectralModularity {
   static constexpr double mTOL   = 0.00001;//the tolerance value, 10^-5; eigenvalues below this threshold are not used
 
   //global variable values
-  bool PRINT;
-  bool SUMMARY;
+  // bool PRINT;
+  // bool SUMMARY;
   bool fixNeig;
   
   double tol;//the tolerance value, 10^-5; eigenvalues below 

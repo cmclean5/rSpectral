@@ -13,8 +13,8 @@ SpectralModularity::SpectralModularity() {
   this->NR_Bgi  = 0;
   this->NC_Bgi  = 0;
   this->M       = 0;
-  this->PRINT   = false;
-  this->SUMMARY = false;
+  // this->PRINT   = false;
+  // this->SUMMARY = false;
   this->fixNeig = false;
 
   this->specQ   = 0;
@@ -1109,7 +1109,8 @@ void SpectralModularity::settol( double NEWtol ){
   
 }
 
-void SpectralModularity::setPrint( bool status ){
+/*
+ void SpectralModularity::setPrint( bool status ){
 
   PRINT = status;
   // if( SUMMARY ){
@@ -1118,7 +1119,6 @@ void SpectralModularity::setPrint( bool status ){
   // }
 }
 
-/*
 void SpectralModularity::setSummary( bool status ){
 
   SUMMARY = status;
@@ -1127,7 +1127,6 @@ void SpectralModularity::setSummary( bool status ){
   //   cout << "> summary = " << SUMMARY << endl;
   // }
 }
-*/
 
 void SpectralModularity::printOpts( ){
 
@@ -1145,7 +1144,8 @@ void SpectralModularity::printOpts( ){
   // }
 
 }
-  
+ */
+
 void SpectralModularity::setFixNeig( bool status ){
 
   fixNeig = status;

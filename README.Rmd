@@ -87,13 +87,17 @@ idx<-match(V(karate)$name,spec1.5$ID)
 mem1.5<-spec1.5$K[idx]
 ```
 
-Note, in the last call to \code{membership} we use \code{detach_graph=1}
+Note, in the last call to `membership` we use `detach_graph=1`
 to clear graph from the memory.
 
 8. and the last plot
 ```{r }
 palette <- rainbow(max(as.numeric(mem1.5)))
 plot(karate,vertex.color=palette[mem1.5],layout=l)
+```
+
+```
+<img src="man/figures/Figure_Comp.png" width="100%" />
 ```
 
 

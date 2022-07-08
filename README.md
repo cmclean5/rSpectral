@@ -98,7 +98,8 @@ idx<-match(V(karate)$name,spec1.5$ID)
 mem1.5<-spec1.5$K[idx]
 ```
 
-Note, in the last call to we use to clear graph from the memory.
+Note, in the last call to `membership` we use `detach_graph=1` to clear
+graph from the memory.
 
 8.  and the last plot
 
@@ -108,6 +109,8 @@ plot(karate,vertex.color=palette[mem1.5],layout=l)
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+
+    <img src="man/figures/Figure_Comp.png" width="100%" />
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.

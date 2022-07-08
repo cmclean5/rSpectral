@@ -125,11 +125,9 @@ void load_data ( Rcpp::DataFrame     df,
 
 //' Spectral modularity clustering
 //'
-//' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
-//' @param verbose should be removed
-//' @param summary should be removed
 //' @param Cn_min minimum cluster size
 //' @param tol tolerance
+//' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
 //' @param fix_neig wether fixing neighbouring nodes found in same community
 //'
 //' @return status (does it really return something?)

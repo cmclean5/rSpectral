@@ -149,9 +149,10 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
                Rcpp::NumericVector tol=0.00001,
                Rcpp::IntegerVector names=1,
                Rcpp::IntegerVector fix_neig=0,
-               Rcpp::IntegerVector verbose=0,
-               Rcpp::IntegerVector summary=0){
-
+               Rcpp::IntegerVector verbose=0){//,
+               // Rcpp::IntegerVector summary=0){
+               
+  
   //For more information wrapping and packaging C/C++ in R see:
   //[1] https://www.gormanalysis.com/blog/exposing-a-cpp-student-class-with-rcpp/ (building R package and adding your C/C++ code)
   //[2] https://www.youtube.com/watch?v=DWkIbk_HE9o (setting up roxygen in R package)
@@ -184,7 +185,7 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
   double *A        = nullptr;
   edgelist *el     = nullptr;
   bool print       = false;
-  bool modelSummary= false;
+  // bool modelSummary= false;
   bool neigFix     = false;
   int alphaNumeric = 1;
 
@@ -220,11 +221,11 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
       }
     }
 
-    if( summary.length() == 1 ){
-      if( summary[0] == 1 ){
-         modelSummary = 1;
-      }
-    }
+    // if( summary.length() == 1 ){
+    //   if( summary[0] == 1 ){
+    //      modelSummary = 1;
+    //   }
+    // }
      
     N = gg->getN();
     M = gg->getM2();
@@ -236,7 +237,8 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
     if( N != 0 && M != 0 ){
 
       //set-up clustering alg.
-      model = new SpectralModularity(gg,el,A,N,M,neigFix,print,modelSummary);
+      // model = new SpectralModularity(gg,el,A,N,M,neigFix,print,modelSummary);
+      model = new SpectralModularity(gg,el,A,N,M,neigFix,print);
       //model->setPrint(print);
       model->settol( TOL );
       model->setMinCn( CnMIN );

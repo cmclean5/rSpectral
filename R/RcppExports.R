@@ -51,8 +51,8 @@ load_data <- function(df, names = 1L) {
 #' spec   = rSpectral::membership(detach_graph=1)
 #' V(g)$color[as.numeric(spec$ID)]<-RColorBrewer::brewer.pal(max(spec$K),'Set1')[spec$K]
 #' plot(g)
-spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L, verbose = 0L, summary = 0L) {
-    invisible(.Call('_rSpectral_spectral', PACKAGE = 'rSpectral', Cn_min, tol, names, fix_neig, verbose, summary))
+spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L, verbose = 0L) {
+    invisible(.Call('_rSpectral_spectral', PACKAGE = 'rSpectral', Cn_min, tol, names, fix_neig, verbose))
 }
 
 #' Return membership data

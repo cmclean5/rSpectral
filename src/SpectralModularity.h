@@ -15,7 +15,8 @@ class SpectralModularity {
 
  public:
    SpectralModularity();
-  SpectralModularity(network *, edgelist *, double *, int, int, bool=false, bool=false, bool=false);
+  // SpectralModularity(network *, edgelist *, double *, int, int, bool=false, bool=false, bool=false);
+  SpectralModularity(network *, edgelist *, double *, int, int, bool=false, bool=false);
   ~SpectralModularity();
   int calculateSpectralModularity();
   void setMinCn   ( int );

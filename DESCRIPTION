@@ -4,8 +4,8 @@ Title: Spectral Modularity Clustering
 Version: 1.0
 Author: Colin Mclean
 Maintainer: Colin Mclean <Colin.D.Mclean@ed.ac.uk>
-Description: 
-URL:
+Description: Implementation of Spectral Modularity Clustering.
+URL: https://github.com/cmclean5/rSpectral
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
@@ -13,3 +13,4 @@ RoxygenNote: 7.2.0
 Depends: R (>= 4.2.0)
 Imports: Rcpp (>= 1.0.8.3)
 LinkingTo: Rcpp, RcppArmadillo
+Suggests: igraph,RColorBrewer

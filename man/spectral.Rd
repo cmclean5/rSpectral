@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{spectral}
 \alias{spectral}
-\title{Spectral}
+\title{Spectral modularity clustering}
 \usage{
 spectral(
   Cn_min = 1L,
@@ -14,20 +14,32 @@ spectral(
 )
 }
 \arguments{
-\item{names}{}
+\item{Cn_min}{minimum cluster size}
 
-\item{verbose}{}
+\item{tol}{tolerance}
 
-\item{summary}{}
+\item{names}{are we dealing with alphaNumeric (1) or numeric (!1) ids}
 
-\item{DF}{}
+\item{fix_neig}{}
 
-\item{CnMIN}{}
+\item{verbose}{should be removed}
 
-\item{TOL}{}
-
-\item{fixNeig}{}
+\item{summary}{should be removed}
+}
+\value{
+status (does it really return something?)
 }
 \description{
-Spectral
+Spectral modularity clustering
+}
+\examples{
+library(igraph)
+g <- make_full_graph(5) \%du\% make_full_graph(5) \%du\% make_full_graph(5)
+g <- add_edges(g, c(1,6, 1,11, 6, 11))
+el = as.data.frame(get.edgelist(g,names=TRUE))
+rSpectral::load_data(df=el)
+status = rSpectral::spectral(fix_neig=0)
+spec   = rSpectral::membership(detach_graph=1)
+V(g)$color[as.numeric(spec$ID)]<-RColorBrewer::brewer.pal(max(spec$K),'Set1')[spec$K]
+plot(g)
 }

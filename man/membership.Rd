@@ -16,10 +16,10 @@ membership vector
 Return membership data
 }
 \examples{
-librory(igraph)
+library(igraph)
 g <- make_full_graph(5) \%du\% make_full_graph(5) \%du\% make_full_graph(5)
 g <- add_edges(g, c(1,6, 1,11, 6, 11))
-el = as.data.frame(get.edgelist(g,names=T))
+el = as.data.frame(get.edgelist(g,names=TRUE))
 rSpectral::load_data(df=el)
 status1 = rSpectral::spectral(fix_neig=0)
 spec1   = rSpectral::membership(detach_graph=0)

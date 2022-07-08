@@ -16,10 +16,10 @@ This function read edge list and create the network for analysis. It does
 not return anything it just creates required structures in memory.
 }
 \examples{
-librory(igraph)
+library(igraph)
 g <- make_full_graph(5) \%du\% make_full_graph(5) \%du\% make_full_graph(5)
 g <- add_edges(g, c(1,6, 1,11, 6, 11))
-el = as.data.frame(get.edgelist(g,names=T))
+el = as.data.frame(get.edgelist(g,names=TRUE))
 rSpectral::load_data(df=el)
 status = rSpectral::spectral(fix_neig=0)
 spec   = rSpectral::membership(detach_graph=1)

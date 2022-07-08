@@ -19,10 +19,10 @@ freeSpace <- function() {
 #' @export
 #'
 #' @examples
-#' librory(igraph)
+#' library(igraph)
 #' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
 #' g <- add_edges(g, c(1,6, 1,11, 6, 11))
-#' el = as.data.frame(get.edgelist(g,names=T))
+#' el = as.data.frame(get.edgelist(g,names=TRUE))
 #' rSpectral::load_data(df=el)
 #' status = rSpectral::spectral(fix_neig=0)
 #' spec   = rSpectral::membership(detach_graph=1)
@@ -30,18 +30,27 @@ load_data <- function(df, names = 1L) {
     invisible(.Call('_rSpectral_load_data', PACKAGE = 'rSpectral', df, names))
 }
 
-#' Spectral
+#' Spectral modularity clustering
 #'
-#' @param DF 
-#' @param CnMIN 
-#' @param TOL 
-#' @param names 
-#' @param fixNeig 
-#' @param verbose 
-#' @param summary 
+#' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
+#' @param verbose should be removed
+#' @param summary should be removed
+#' @param Cn_min minimum cluster size
+#' @param tol tolerance
+#' @param fix_neig 
 #'
-#' @return
+#' @return status (does it really return something?)
 #' @export
+#' @examples
+#' library(igraph)
+#' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
+#' g <- add_edges(g, c(1,6, 1,11, 6, 11))
+#' el = as.data.frame(get.edgelist(g,names=TRUE))
+#' rSpectral::load_data(df=el)
+#' status = rSpectral::spectral(fix_neig=0)
+#' spec   = rSpectral::membership(detach_graph=1)
+#' V(g)$color[as.numeric(spec$ID)]<-RColorBrewer::brewer.pal(max(spec$K),'Set1')[spec$K]
+#' plot(g)
 spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L, verbose = 0L, summary = 0L) {
     invisible(.Call('_rSpectral_spectral', PACKAGE = 'rSpectral', Cn_min, tol, names, fix_neig, verbose, summary))
 }
@@ -54,10 +63,10 @@ spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L, verb
 #' @export
 #'
 #' @examples
-#' librory(igraph)
+#' library(igraph)
 #' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
 #' g <- add_edges(g, c(1,6, 1,11, 6, 11))
-#' el = as.data.frame(get.edgelist(g,names=T))
+#' el = as.data.frame(get.edgelist(g,names=TRUE))
 #' rSpectral::load_data(df=el)
 #' status1 = rSpectral::spectral(fix_neig=0)
 #' spec1   = rSpectral::membership(detach_graph=0)

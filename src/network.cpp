@@ -195,7 +195,7 @@ void      network::setM( int Mm ){ if( V!=0 ) M = Mm; }
 
 void      network::setM(){
 
-  int i;
+  // int i;
   
   if( V!=0 ){
     
@@ -216,9 +216,10 @@ edgelist* network::getEdgeList() { return el; }
 //build the network repersentations, Adjacency Matrix & edge list
 int network::buildNetworkReps( bool useLOOPS, bool Check ){
 
-  int i,j,m,k,I,J,KK;
-  int status;
-  double sum;
+  // int i,j,m,k,I,J,KK;
+  // int status;
+  // double sum;
+  int KK;
   
   if( V!= 0 ){
 
@@ -269,8 +270,9 @@ int network::buildNetworkReps( bool useLOOPS, bool Check ){
 
 void network::checkVertexDegree( double *AA ){
 
-  int i,j,k,K,sum;
-
+  // int i,j,k,K,sum;
+  int i,j,k,sum;
+  
   N = nvertices;
   
   // if( PRINT ){cout << "checking vertex degrees..."; }

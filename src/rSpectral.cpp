@@ -174,7 +174,7 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
   //7)  library(CDMSuite)
   //8)  CDMSuite::spectral(...)
 
-  int i,j,k,KK;
+  // int i,j,k,KK;
 
   int CnMIN        = 1;
   double TOL       = 0.00001;

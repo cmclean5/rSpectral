@@ -21,7 +21,7 @@ class SpectralModularity {
   void setMinCn   ( int );
   void settol     ( double );
   void setPrint   ( bool );
-  void setSummary ( bool );
+  // void setSummary ( bool );
   void setFixNeig ( bool );
   void setEignOpts( double, int, int );
   void printOpts  ();

@@ -1116,6 +1116,7 @@ void SpectralModularity::setPrint( bool status ){
   // }
 }
 
+/*
 void SpectralModularity::setSummary( bool status ){
 
   SUMMARY = status;
@@ -1124,7 +1125,7 @@ void SpectralModularity::setSummary( bool status ){
   //   cout << "> summary = " << SUMMARY << endl;
   // }
 }
-
+*/
 
 void SpectralModularity::printOpts( ){
 

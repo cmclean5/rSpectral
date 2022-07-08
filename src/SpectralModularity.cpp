@@ -151,7 +151,7 @@ int SpectralModularity::calculateSpectralModularity(){
   //--- update the maximum community number
   MAXK = 2;
   
-  if( PRINT ){ gg->printVertices(); }
+  // if( PRINT ){ gg->printVertices(); }
 
   
   //--- Recursively split the group of positive eigenvector nodes

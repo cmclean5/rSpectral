@@ -90,7 +90,7 @@ int SpectralModularity::calculateSpectralModularity(){
   calculateEigenVectors();
 
   
-  if( PRINT ){ cout << "> max EigenValue is " << betai << endl; }
+  // if( PRINT ){ cout << "> max EigenValue is " << betai << endl; }
   
   //--- set up the index vectors, si and SI, for the initial split
   maximiseIndexVectors();
@@ -101,7 +101,7 @@ int SpectralModularity::calculateSpectralModularity(){
   double deltaQ_new = 0.0;
   
   deltaModularity(deltaQ_old);
-  if( PRINT ){ cout << "> Spectral Q: " << deltaQ_old << endl; }
+  // if( PRINT ){ cout << "> Spectral Q: " << deltaQ_old << endl; }
 
   double diff = deltaQ_old;
 
@@ -130,7 +130,7 @@ int SpectralModularity::calculateSpectralModularity(){
     modifySplit( Ng );
     
     deltaModularity( deltaQ_new );
-    if( PRINT ){ cout << "> Modified Q: " << deltaQ_new << endl; }    
+    // if( PRINT ){ cout << "> Modified Q: " << deltaQ_new << endl; }    
 
     if( deltaQ_new < 0 ) break;
     
@@ -160,7 +160,7 @@ int SpectralModularity::calculateSpectralModularity(){
   split( Bgi_temp, Ng, keys_n, "splitN" );
 
   
-  if( PRINT ){ cout << "done." << endl; }
+  // if( PRINT ){ cout << "done." << endl; }
   
   
   return 0;
@@ -250,7 +250,7 @@ void SpectralModularity::setupMatrices(){
   //---norm
   NORM = 1.0/(2.0*(double)M);
 
-  if( PRINT ){ cout << "N: " << NR_Bgi << ", M: " << M << ", NORM: " << NORM << endl; }
+  // if( PRINT ){ cout << "N: " << NR_Bgi << ", M: " << M << ", NORM: " << NORM << endl; }
   double sum=0.0;
 
   //--- The Modularity matrix, Bgi  
@@ -267,7 +267,7 @@ void SpectralModularity::setupMatrices(){
     
   }
 
-  if( PRINT ){ cout << "Sum(Bgi): " << sum << endl; }
+  // if( PRINT ){ cout << "Sum(Bgi): " << sum << endl; }
   
 }
 
@@ -576,14 +576,14 @@ void SpectralModularity::fixNodes(){
       }
   }    
 
-  if( PRINT ){
-    cout << "> fixNode summary:" << endl;
-    for( u=0; u<Ng; u++){
-      if( visited[u] == 1 ){ sFixed++; }
-    }
-    
-    cout << "> fixed nodes: " << sFixed << ", free nodes: " << Ng-sFixed << endl;
-  }
+  // if( PRINT ){
+  //   cout << "> fixNode summary:" << endl;
+  //   for( u=0; u<Ng; u++){
+  //     if( visited[u] == 1 ){ sFixed++; }
+  //   }
+  //   
+  //   cout << "> fixed nodes: " << sFixed << ", free nodes: " << Ng-sFixed << endl;
+  // }
  
 }
 
@@ -645,14 +645,14 @@ void SpectralModularity::fixNodes( int Nkeys, int* keys, const char *sign ){
     }
   }    
 
-  if( PRINT ){
-    cout << "> fixNode summary:" << endl;
-    for( u=0; u<Ng; u++){
-      if( visited[u] == 1 ){ sFixed++; }
-    }
-    
-    cout << "> fixed nodes: " << sFixed << ", free nodes: " << Ng-sFixed << endl;
-  }
+  // if( PRINT ){
+  //   cout << "> fixNode summary:" << endl;
+  //   for( u=0; u<Ng; u++){
+  //     if( visited[u] == 1 ){ sFixed++; }
+  //   }
+  //   
+  //   cout << "> fixed nodes: " << sFixed << ", free nodes: " << Ng-sFixed << endl;
+  // }
 
   //free memory
   if( vIDs != nullptr ){ free(vIDs); }
@@ -716,7 +716,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
   int *keysi_p = nullptr;
   int *keysi_n = nullptr;
   
-  if( PRINT ){ cout << "> In " << sign << " method... " << endl; }
+  // if( PRINT ){ cout << "> In " << sign << " method... " << endl; }
 
   //--- Starting from the group Modularity matrix Bg,
   //--- resize matrices: Bgi, keysi_p, keysi_n, u and betai.
@@ -727,7 +727,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
     if( keys[k] != dummy ) Ng++;    
   }
 
-  if( PRINT ){ cout << "> Ng = " << Ng << ". " << endl; }
+  // if( PRINT ){ cout << "> Ng = " << Ng << ". " << endl; }
 
   //--- creates a new Ng x Ng matrix Bgii from Bgiii
   KK = Ng * Ng;
@@ -794,7 +794,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
   calculateEigenVectors();
 
   
-  if( PRINT ){ cout << "> max EigenValue is " << betai << endl; }
+  // if( PRINT ){ cout << "> max EigenValue is " << betai << endl; }
   
   if( betai > tol  ){
 	
@@ -809,7 +809,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
     
     //--- Calculate the Spectral Modularity
     deltaModularity(deltaQ_old);
-    if( PRINT ){ cout << "> Spectral Q: " << deltaQ_old << endl; }
+    // if( PRINT ){ cout << "> Spectral Q: " << deltaQ_old << endl; }
 
     double diff = fabs(deltaQ_old);
     int count   = 0;
@@ -840,7 +840,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
       modifySplit( Ng );
 
       deltaModularity(deltaQ_new);
-      if( PRINT ){ cout << "> Modified Q: " << deltaQ_new << endl; }
+      // if( PRINT ){ cout << "> Modified Q: " << deltaQ_new << endl; }
 
       diff = fabs( deltaQ_new - deltaQ_old ); 
     
@@ -859,7 +859,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
     //Minimum cluster size... we can reset this either in the header or using setMinCn();
     if( cp < MINCn || cn < MINCn ) {
 
-      if( PRINT ){ cout << "> Stop splitting. " << endl; }
+      // if( PRINT ){ cout << "> Stop splitting. " << endl; }
 
       //free memory
       if( Bgii    != nullptr ){ free(Bgii);    }
@@ -885,7 +885,7 @@ void SpectralModularity::split( double *Bgiii, int NR_Bgiii, int *keys, const ch
     if( keysi_n != nullptr ){ free(keysi_n); }
     
   } else {
-    if( PRINT ){ cout << "> Stop splitting. " << endl; }
+    // if( PRINT ){ cout << "> Stop splitting. " << endl; }
 
      //free memory
     if( Bgii    != nullptr ){ free(Bgii);    }
@@ -906,9 +906,9 @@ void SpectralModularity::updateNodeComs( const int Ng ){
 
   int k;
   
-  if( PRINT ){ cout << "si[0] " << si[0] << endl; }
+  // if( PRINT ){ cout << "si[0] " << si[0] << endl; }
   
-  if( PRINT ){ cout << "> node list " << endl; }
+  // if( PRINT ){ cout << "> node list " << endl; }
   for(k=0; k<Ng; k++){
 
     if(si[k] > 0){
@@ -985,8 +985,8 @@ void SpectralModularity::updateNodeComs( const int Ng,
     Ncomp = MAXK  + 1;
     MAXK  = Ncomp;
     
-    if( PRINT ){ cout << "si[0] " << si[0] << endl; }
-    if( PRINT ){ cout << "> node list " << endl; }
+    // if( PRINT ){ cout << "si[0] " << si[0] << endl; }
+    // if( PRINT ){ cout << "> node list " << endl; }
 
     for(k=0; k<Ng; k++){
 
@@ -994,13 +994,13 @@ void SpectralModularity::updateNodeComs( const int Ng,
         keys_p[k] = (int)keys_p[k];
         keys_n[k] = dummy;
         gg->V[ (int)keys_p[k] ].K = Ncomp;
-        if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_p[k]].label <<
-                             " c = "    << gg->V[ (int)keys_p[k]].K << endl; }
+        // if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_p[k]].label <<
+        //                      " c = "    << gg->V[ (int)keys_p[k]].K << endl; }
       } else {
         keys_n[k] = (int)keys_p[k];
         keys_p[k] = dummy;
-        if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_n[k]].label <<
-                             " c =    " << gg->V[ (int)keys_n[k]].K << endl; }
+        // if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_n[k]].label <<
+        //                      " c =    " << gg->V[ (int)keys_n[k]].K << endl; }
       }
 
     }
@@ -1011,8 +1011,8 @@ void SpectralModularity::updateNodeComs( const int Ng,
       Ncomn = MAXK  + 1;
       MAXK  = Ncomn;
     
-      if( PRINT ){ cout << "si[0] " << si[0] << endl; }    
-      if( PRINT ){ cout << "> node list " << endl; }
+      // if( PRINT ){ cout << "si[0] " << si[0] << endl; }    
+      // if( PRINT ){ cout << "> node list " << endl; }
       
       for(k=0; k<Ng; k++){
 	
@@ -1020,13 +1020,13 @@ void SpectralModularity::updateNodeComs( const int Ng,
           keys_n[k] = keys_n[k];
           keys_p[k] = dummy;
           gg->V[ (int)keys_n[k] ].K = Ncomn;
-          if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_n[k]].label <<
-                               " c =    " << gg->V[ (int)keys_n[k]].K << endl; }	  
+          // if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_n[k]].label <<
+          //                      " c =    " << gg->V[ (int)keys_n[k]].K << endl; }	  
         } else {
           keys_p[k] = keys_n[k];
           keys_n[k] = dummy;
-          if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_p[k]].label <<
-                               " c =    " << gg->V[ (int)keys_p[k]].K << endl; }
+          // if( PRINT ){ cout << "> Node: " << gg->V[ (int)keys_p[k]].label <<
+          //                      " c =    " << gg->V[ (int)keys_p[k]].K << endl; }
         }
 	
       }
@@ -1086,10 +1086,10 @@ void SpectralModularity::setMinCn( int NEWCn ){
 
   if( NEWCn > 0 && NEWCn <= gg->getN() ){
     MINCn = NEWCn;
-    if( SUMMARY ){
-      cout << "> manual set:" << endl;
-      cout << "> Mincn Cn = " << MINCn << endl;
-    }
+    // if( SUMMARY ){
+    //   cout << "> manual set:" << endl;
+    //   cout << "> Mincn Cn = " << MINCn << endl;
+    // }
   }
   
 }
@@ -1099,10 +1099,10 @@ void SpectralModularity::settol( double NEWtol ){
 
   if( NEWtol >= 0 ){
     tol = NEWtol;
-    if( SUMMARY ){
-      cout << "> manual set:" << endl;
-      cout << "> eig Tol = " << tol << endl;
-    }
+    // if( SUMMARY ){
+    //   cout << "> manual set:" << endl;
+    //   cout << "> eig Tol = " << tol << endl;
+    // }
   }
   
 }
@@ -1110,46 +1110,46 @@ void SpectralModularity::settol( double NEWtol ){
 void SpectralModularity::setPrint( bool status ){
 
   PRINT = status;
-  if( SUMMARY ){
-    cout << "> manual set:" << endl;
-    cout << "> print = " << PRINT << endl;
-  }
+  // if( SUMMARY ){
+  //   cout << "> manual set:" << endl;
+  //   cout << "> print = " << PRINT << endl;
+  // }
 }
 
 void SpectralModularity::setSummary( bool status ){
 
   SUMMARY = status;
-  if( SUMMARY ){
-    cout << "> manual set:" << endl;
-    cout << "> summary = " << SUMMARY << endl;
-  }
+  // if( SUMMARY ){
+  //   cout << "> manual set:" << endl;
+  //   cout << "> summary = " << SUMMARY << endl;
+  // }
 }
 
 
 void SpectralModularity::printOpts( ){
 
-  if( SUMMARY ){
-  cout << "*** parameters set in spectral ****" << endl;
-  cout << "> netork        = (" << gg->getN() << "," << M << ")" << endl;
-  cout << "> print         = " << PRINT << endl;
-  cout << "> fixNeig       = " << fixNeig << endl;
-  cout << "> Mincn Cn      = " << MINCn << endl;
-  cout << "> eig Tol       = " << eTOL << endl;
-  cout << "> arma::tol     = " << opts.tol << endl;
-  cout << "> arma::subdim  = " << opts.subdim << endl;
-  cout << "> arma::maxiter = " << opts.maxiter << endl;
-  cout << "************************************" << endl;
-  }
+  // if( SUMMARY ){
+  // cout << "*** parameters set in spectral ****" << endl;
+  // cout << "> netork        = (" << gg->getN() << "," << M << ")" << endl;
+  // cout << "> print         = " << PRINT << endl;
+  // cout << "> fixNeig       = " << fixNeig << endl;
+  // cout << "> Mincn Cn      = " << MINCn << endl;
+  // cout << "> eig Tol       = " << eTOL << endl;
+  // cout << "> arma::tol     = " << opts.tol << endl;
+  // cout << "> arma::subdim  = " << opts.subdim << endl;
+  // cout << "> arma::maxiter = " << opts.maxiter << endl;
+  // cout << "************************************" << endl;
+  // }
 
 }
   
 void SpectralModularity::setFixNeig( bool status ){
 
   fixNeig = status;
-  if( SUMMARY ){
-    cout << "> manual set:" << endl;
-    cout << "> fixNeig = " << fixNeig << endl;
-  }
+  // if( SUMMARY ){
+  //   cout << "> manual set:" << endl;
+  //   cout << "> fixNeig = " << fixNeig << endl;
+  // }
 }
 
 

@@ -10,7 +10,7 @@ vertex::vertex() : edge(){
   E     =0;       
   Nk    =0;
   Ns    =0;
-  PRINT =false;
+  // PRINT =false;
 
   Kprobs=0;
   Nsamples=0;
@@ -146,6 +146,7 @@ void vertex::freeSpace(){
 
 }
 
+/*
 void vertex::printV(){
 
   
@@ -157,3 +158,4 @@ void vertex::printV(){
 void vertex::setPrint( bool status ){
   PRINT = status;
 }
+*/

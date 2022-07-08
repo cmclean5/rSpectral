@@ -32,17 +32,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // spectral
-void spectral(Rcpp::IntegerVector Cn_min, Rcpp::NumericVector tol, Rcpp::IntegerVector names, Rcpp::IntegerVector fix_neig, Rcpp::IntegerVector verbose, Rcpp::IntegerVector summary);
-RcppExport SEXP _rSpectral_spectral(SEXP Cn_minSEXP, SEXP tolSEXP, SEXP namesSEXP, SEXP fix_neigSEXP, SEXP verboseSEXP, SEXP summarySEXP) {
+void spectral(Rcpp::IntegerVector Cn_min, Rcpp::NumericVector tol, Rcpp::IntegerVector names, Rcpp::IntegerVector fix_neig);
+RcppExport SEXP _rSpectral_spectral(SEXP Cn_minSEXP, SEXP tolSEXP, SEXP namesSEXP, SEXP fix_neigSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type Cn_min(Cn_minSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type tol(tolSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type names(namesSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type fix_neig(fix_neigSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type verbose(verboseSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type summary(summarySEXP);
-    spectral(Cn_min, tol, names, fix_neig, verbose, summary);
+    spectral(Cn_min, tol, names, fix_neig);
     return R_NilValue;
 END_RCPP
 }
@@ -61,7 +59,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_rSpectral_freeSpace", (DL_FUNC) &_rSpectral_freeSpace, 0},
     {"_rSpectral_load_data", (DL_FUNC) &_rSpectral_load_data, 2},
-    {"_rSpectral_spectral", (DL_FUNC) &_rSpectral_spectral, 6},
+    {"_rSpectral_spectral", (DL_FUNC) &_rSpectral_spectral, 4},
     {"_rSpectral_membership", (DL_FUNC) &_rSpectral_membership, 1},
     {NULL, NULL, 0}
 };

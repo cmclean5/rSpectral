@@ -13,8 +13,8 @@ SpectralModularity::SpectralModularity() {
   this->NR_Bgi  = 0;
   this->NC_Bgi  = 0;
   this->M       = 0;
-  this->PRINT   = false;
-  this->SUMMARY = false;
+  // this->PRINT   = false;
+  // this->SUMMARY = false;
   this->fixNeig = false;
 
   this->specQ   = 0;
@@ -38,9 +38,11 @@ SpectralModularity::SpectralModularity() {
 
 }
 
+// SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, int N, int M,
+//                                         bool neigFix, bool print, bool summary ) {
 SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, int N, int M,
-                                        bool neigFix, bool print, bool summary ) {
- 
+                                        bool neigFix ) {
+  
   this->gg      = gg;
   this->A       = A;
   this->Bgi     = nullptr;
@@ -48,8 +50,8 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   this->NR_Bgi  = N;//set initial rows for Bgi
   this->NC_Bgi  = N;//set initial cols for Bgi
   this->M       = M;//number of edges
-  this->PRINT   = print;//false;
-  this->SUMMARY = summary;
+  // this->PRINT   = print;//false;
+  // this->SUMMARY = summary;
   this->fixNeig = neigFix;//false; 
   
   this->specQ   = 0;
@@ -75,7 +77,7 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   
   setupMatrices();
 
-  printOpts();
+  // printOpts();
   
 }
 
@@ -149,7 +151,7 @@ int SpectralModularity::calculateSpectralModularity(){
   //--- update the maximum community number
   MAXK = 2;
   
-  if( PRINT ){ gg->printVertices(); }
+  // if( PRINT ){ gg->printVertices(); }
 
   
   //--- Recursively split the group of positive eigenvector nodes
@@ -1107,7 +1109,8 @@ void SpectralModularity::settol( double NEWtol ){
   
 }
 
-void SpectralModularity::setPrint( bool status ){
+/*
+ void SpectralModularity::setPrint( bool status ){
 
   PRINT = status;
   // if( SUMMARY ){
@@ -1125,7 +1128,6 @@ void SpectralModularity::setSummary( bool status ){
   // }
 }
 
-
 void SpectralModularity::printOpts( ){
 
   // if( SUMMARY ){
@@ -1142,7 +1144,8 @@ void SpectralModularity::printOpts( ){
   // }
 
 }
-  
+ */
+
 void SpectralModularity::setFixNeig( bool status ){
 
   fixNeig = status;

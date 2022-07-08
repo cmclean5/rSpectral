@@ -32,11 +32,9 @@ load_data <- function(df, names = 1L) {
 
 #' Spectral modularity clustering
 #'
-#' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
-#' @param verbose should be removed
-#' @param summary should be removed
 #' @param Cn_min minimum cluster size
 #' @param tol tolerance
+#' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
 #' @param fix_neig wether fixing neighbouring nodes found in same community
 #'
 #' @return status (does it really return something?)
@@ -51,8 +49,8 @@ load_data <- function(df, names = 1L) {
 #' spec   = rSpectral::membership(detach_graph=1)
 #' V(g)$color[as.numeric(spec$ID)]<-RColorBrewer::brewer.pal(max(spec$K),'Set1')[spec$K]
 #' plot(g)
-spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L, verbose = 0L, summary = 0L) {
-    invisible(.Call('_rSpectral_spectral', PACKAGE = 'rSpectral', Cn_min, tol, names, fix_neig, verbose, summary))
+spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L) {
+    invisible(.Call('_rSpectral_spectral', PACKAGE = 'rSpectral', Cn_min, tol, names, fix_neig))
 }
 
 #' Return membership data

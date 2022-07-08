@@ -4,14 +4,7 @@
 \alias{spectral}
 \title{Spectral modularity clustering}
 \usage{
-spectral(
-  Cn_min = 1L,
-  tol = 1e-05,
-  names = 1L,
-  fix_neig = 0L,
-  verbose = 0L,
-  summary = 0L
-)
+spectral(Cn_min = 1L, tol = 1e-05, names = 1L, fix_neig = 0L)
 }
 \arguments{
 \item{Cn_min}{minimum cluster size}

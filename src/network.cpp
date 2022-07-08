@@ -14,7 +14,7 @@ network::network() : vertex() {
   M2       =0;
   LOOPS    =0;
   maxTYPES =0;
-  PRINT    = false;
+  // PRINT    = false;
   
 }
 
@@ -369,7 +369,7 @@ void network::removeVertices( int keys[], int length, int dummy ){
   
   
 }
-
+/*
 void network::printA(){
   
   int i,j,k,K;
@@ -437,6 +437,7 @@ void network::printVertices(){
   // 
 
 }
+*/
 
 int network::getMaxK(){
 
@@ -532,6 +533,8 @@ void network::offSetK( int offset ){
     
 }
 
+/*
 void network::setPrint( bool status ){
   PRINT = status;
 }
+*/

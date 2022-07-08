@@ -46,20 +46,20 @@ class network : vertex {
   void       setM();
   void       setM( int );
   
-  void printA();
-  void printEdgeList();
-  void printVertices();
+  // void printA();
+  // void printEdgeList();
+  // void printVertices();
   int  getMaxK();
   int  getMinK();
   void reorderK();
   void offSetK( int );
-  void setPrint( bool );
+  // void setPrint( bool );
   
   int nvertices;     // Number of vertices in network
   int directed;      // 1 = directed network, 0 = undirected
   vertex *V;         // Array of VERTEX structs, one for each vertex
 
-
+/*
   //Print _Nr x _Nc matrix _M
   static inline void printM( double *_M, int _Nr, int _Nc, const char* _Name ){
 
@@ -78,7 +78,7 @@ class network : vertex {
     }
     
  };
-
+*/
  
  private:
   int   AKK;//Adjanceny matrix size
@@ -91,7 +91,7 @@ class network : vertex {
 
   int     maxTYPES;
 
-  bool PRINT;
+  // bool PRINT;
   
   edgelist *el;
 

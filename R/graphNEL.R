@@ -1,0 +1,25 @@
+#' Spectral clustering for \code{graphNEL} objects
+#'
+#' @param g \code{graphNEL} object
+#' @inheritParams spectral
+#' @return \code{data.frame} with node names and membership information
+#' @export
+#'
+#' @examples
+#' V = letters[1:12]
+#' g2 = randomEGraph(V, edges=20)
+#' mem.df = spectral_graphNEL(g2)
+#' head(mem.df)
+spectral_graphNEL<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L){
+  if(!inherits(g,'graphNEL')){
+    stop('Graph should be "graphNEL" object.')
+  }
+  led<-edges(g2)
+l<-lapply(names(led),function(.x)data.frame(V1=rep(.x,length(led[[.x]])),V2=led[[.x]]))
+df<-do.call(rbind,l)
+rSpectral::load_data(df=df)
+status = rSpectral::spectral(fix_neig=1)
+spec   = rSpectral::membership(detach_graph=1)
+spec.df<- data.frame(names=spec$ID,membership=spec$K)
+return(spec.df)
+}

@@ -9,6 +9,9 @@ string *dataset           = nullptr;
 network *gg               = nullptr;
 SpectralModularity *model = nullptr;
 
+//' Clean things up
+//'
+//' @export
 // [[Rcpp::export]]
  void freeSpace(){
 
@@ -20,6 +23,24 @@ SpectralModularity *model = nullptr;
  }
 
 
+//' Load edge list for analysis
+//' 
+//' This function read edge list and create the network for analysis. It does 
+//' not return anything it just creates required structures in memory.
+//'
+//' @param df edge list
+//' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
+//'
+//' @export
+//'
+//' @examples
+//' librory(igraph)
+//' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
+//' g <- add_edges(g, c(1,6, 1,11, 6, 11))
+//' el = as.data.frame(get.edgelist(g,names=T))
+//' rSpectral::load_data(df=el)
+//' status = rSpectral::spectral(fix_neig=0)
+//' spec   = rSpectral::membership(detach_graph=1)
 // [[Rcpp::export]]
 void load_data ( Rcpp::DataFrame     df,
                  Rcpp::IntegerVector names=1 ){
@@ -227,6 +248,23 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
   
 }//spectral
 
+//' Return membership data
+//'
+//' @param detach_graph whether you want to keep graph in memory
+//'
+//' @return membership vector
+//' @export
+//'
+//' @examples
+//' librory(igraph)
+//' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
+//' g <- add_edges(g, c(1,6, 1,11, 6, 11))
+//' el = as.data.frame(get.edgelist(g,names=T))
+//' rSpectral::load_data(df=el)
+//' status1 = rSpectral::spectral(fix_neig=0)
+//' spec1   = rSpectral::membership(detach_graph=0)
+//' status2 = rSpectral::spectral(fix_neig=1)
+//' spec2   = rSpectral::membership(detach_graph=0)
 // [[Rcpp::export]]
  Rcpp::List membership( Rcpp::IntegerVector detach_graph=1 ){
 

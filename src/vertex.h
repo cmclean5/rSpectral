@@ -18,8 +18,8 @@ class vertex : edge {
   void freeE         ();
 
   void freeSpace();
-  void printV();
-  void setPrint( bool );
+  // void printV();
+  // void setPrint( bool );
   
   int id;            // GML ID number of vertex
   int degree;        // Degree of vertex (out-degree for directed nets)
@@ -33,8 +33,8 @@ class vertex : edge {
   int Nk;            // Size of Kprobs
   int Ns;            // Size of Nsamples;
 
- private:  
-  bool PRINT;
+ // private:  
+ //  bool PRINT;
   
 };
 

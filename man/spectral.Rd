@@ -14,10 +14,6 @@ spectral(Cn_min = 1L, tol = 1e-05, names = 1L, fix_neig = 0L)
 \item{names}{are we dealing with alphaNumeric (1) or numeric (!1) ids}
 
 \item{fix_neig}{wether fixing neighbouring nodes found in same community}
-
-\item{verbose}{should be removed}
-
-\item{summary}{should be removed}
 }
 \value{
 status (does it really return something?)

@@ -148,8 +148,8 @@ void load_data ( Rcpp::DataFrame     df,
 void spectral( Rcpp::IntegerVector Cn_min=1,
                Rcpp::NumericVector tol=0.00001,
                Rcpp::IntegerVector names=1,
-               Rcpp::IntegerVector fix_neig=0,
-               Rcpp::IntegerVector verbose=0){//,
+               Rcpp::IntegerVector fix_neig=0){//,
+               // Rcpp::IntegerVector verbose=0,
                // Rcpp::IntegerVector summary=0){
                
   
@@ -215,11 +215,11 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
       }
     }
     
-    if( verbose.length() == 1 ){
-      if( verbose[0] == 1 ){
-        print = 1;
-      }
-    }
+    // if( verbose.length() == 1 ){
+    //   if( verbose[0] == 1 ){
+    //     print = 1;
+    //   }
+    // }
 
     // if( summary.length() == 1 ){
     //   if( summary[0] == 1 ){
@@ -238,7 +238,7 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
 
       //set-up clustering alg.
       // model = new SpectralModularity(gg,el,A,N,M,neigFix,print,modelSummary);
-      model = new SpectralModularity(gg,el,A,N,M,neigFix,print);
+      model = new SpectralModularity(gg,el,A,N,M,neigFix);
       //model->setPrint(print);
       model->settol( TOL );
       model->setMinCn( CnMIN );

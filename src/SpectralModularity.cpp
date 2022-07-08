@@ -41,7 +41,7 @@ SpectralModularity::SpectralModularity() {
 // SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, int N, int M,
 //                                         bool neigFix, bool print, bool summary ) {
 SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, int N, int M,
-                                        bool neigFix, bool print ) {
+                                        bool neigFix ) {
   
   this->gg      = gg;
   this->A       = A;
@@ -50,7 +50,7 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   this->NR_Bgi  = N;//set initial rows for Bgi
   this->NC_Bgi  = N;//set initial cols for Bgi
   this->M       = M;//number of edges
-  this->PRINT   = print;//false;
+  // this->PRINT   = print;//false;
   // this->SUMMARY = summary;
   this->fixNeig = neigFix;//false; 
   
@@ -77,7 +77,7 @@ SpectralModularity::SpectralModularity( network *gg, edgelist *el, double *A, in
   
   setupMatrices();
 
-  printOpts();
+  // printOpts();
   
 }
 

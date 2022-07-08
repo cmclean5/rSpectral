@@ -102,6 +102,18 @@ void load_data ( Rcpp::DataFrame     df,
 
 }//load_data
 
+//' Spectral
+//'
+//' @param DF 
+//' @param CnMIN 
+//' @param TOL 
+//' @param names 
+//' @param fixNeig 
+//' @param verbose 
+//' @param summary 
+//'
+//' @return
+//' @export
 // [[Rcpp::export]]
 void spectral( Rcpp::IntegerVector Cn_min=1,
                Rcpp::NumericVector tol=0.00001,

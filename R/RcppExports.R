@@ -9,6 +9,18 @@ load_data <- function(df, names = 1L) {
     invisible(.Call('_rSpectral_load_data', PACKAGE = 'rSpectral', df, names))
 }
 
+#' Spectral
+#'
+#' @param DF 
+#' @param CnMIN 
+#' @param TOL 
+#' @param names 
+#' @param fixNeig 
+#' @param verbose 
+#' @param summary 
+#'
+#' @return
+#' @export
 spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L, verbose = 0L, summary = 0L) {
     invisible(.Call('_rSpectral_spectral', PACKAGE = 'rSpectral', Cn_min, tol, names, fix_neig, verbose, summary))
 }

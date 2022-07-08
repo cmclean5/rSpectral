@@ -130,7 +130,7 @@ void load_data ( Rcpp::DataFrame     df,
 //' @param summary should be removed
 //' @param Cn_min minimum cluster size
 //' @param tol tolerance
-//' @param fix_neig 
+//' @param fix_neig wether fixing neighbouring nodes found in same community
 //'
 //' @return status (does it really return something?)
 //' @export

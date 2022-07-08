@@ -164,7 +164,7 @@ void network::countEdges(){
 
   }
        
-  if( PRINT ){ cout << "TEST: M " << M << " M/2 " << M2 << " LOOPS " << LOOPS << " sum(D) " << countDegree() << endl; }
+  // if( PRINT ){ cout << "TEST: M " << M << " M/2 " << M2 << " LOOPS " << LOOPS << " sum(D) " << countDegree() << endl; }
   
 }
 
@@ -273,7 +273,7 @@ void network::checkVertexDegree( double *AA ){
 
   N = nvertices;
   
-  if( PRINT ){cout << "checking vertex degrees..."; }
+  // if( PRINT ){cout << "checking vertex degrees..."; }
    
   for(i=0; i<N; ++i){
     sum=0;
@@ -289,7 +289,7 @@ void network::checkVertexDegree( double *AA ){
     }
   }
 
-  if( PRINT ){cout << "done." << endl; }
+  // if( PRINT ){cout << "done." << endl; }
 
  }
 
@@ -307,7 +307,7 @@ void network::removeVertices( int keys[], int length, int dummy ){
   
   if( (length == N) && (Ng != 0) && (Ng < N) ){
 
-    if( PRINT ){cout << "Resizing V from " << N << " to " << Ng << "..." << endl; }
+    // if( PRINT ){cout << "Resizing V from " << N << " to " << Ng << "..." << endl; }
     
     //Set current size of the Adjaceny matrix
     KKin = N * N;
@@ -363,7 +363,7 @@ void network::removeVertices( int keys[], int length, int dummy ){
     //Now assign edges to V.E using the Adjaceny matrix
     checkVertexDegree( tA  );    
     
-    if( PRINT ){cout << "done." << endl; }
+    // if( PRINT ){cout << "done." << endl; }
 
   }
   
@@ -376,22 +376,22 @@ void network::printA(){
 
   if( A!=0 && AKK!=0 ){
   
-    if( PRINT ){ cout << "Adjancency Matrix: " << endl; }
+    // if( PRINT ){ cout << "Adjancency Matrix: " << endl; }
   N=nvertices;
   K=N*N;
   for(k=0; k<K; k++){
     i = floor(k/N);
     j = k % N;
-    if( A[(i*N)+j] != 0 ) if( PRINT ){ cout << " " << A[(i*N)+j] << " "; }
-    else                  if( PRINT ){ cout << " . "; }
-
-    if( j == (N-1) )      if( PRINT ){ cout << "" << endl; }
+    // if( A[(i*N)+j] != 0 ) if( PRINT ){ cout << " " << A[(i*N)+j] << " "; }
+    // else                  if( PRINT ){ cout << " . "; }
+    // 
+    // if( j == (N-1) )      if( PRINT ){ cout << "" << endl; }
   }
 
-  if( PRINT ){ cout << "" << endl; }
+  // if( PRINT ){ cout << "" << endl; }
 
   } else {
-    if( PRINT ){ cout << "Empty container." << endl; }
+    // if( PRINT ){ cout << "Empty container." << endl; }
   }
   
   
@@ -400,18 +400,18 @@ void network::printA(){
 void network::printEdgeList(){
 
   
-  int m;
-
-  if( el != 0 ){
-  
-    if( PRINT ){ cout << "Edge List" << endl; }
-    for(m=0; m<M; ++m){
-      if( PRINT ){ cout << "el.source: " << el[m].source << " el.target " << el[m].target << " el.weight " << el[m].weight << endl; }
-    }
-  } else {
-    if( PRINT ){ cout << "Empty container." << endl; }
-  }
-  
+  // int m;
+  // 
+  // if( el != 0 ){
+  // 
+  //   if( PRINT ){ cout << "Edge List" << endl; }
+  //   for(m=0; m<M; ++m){
+  //     if( PRINT ){ cout << "el.source: " << el[m].source << " el.target " << el[m].target << " el.weight " << el[m].weight << endl; }
+  //   }
+  // } else {
+  //   if( PRINT ){ cout << "Empty container." << endl; }
+  // }
+  // 
 
 }
 
@@ -419,22 +419,22 @@ void network::printEdgeList(){
 void network::printVertices(){
 
   
-  int v;
-
-  if( V!=0 && nvertices!=0 ){
-
-    N    = nvertices;
-    
-    if( PRINT ){ cout << "Vertex Properties" << endl; }
-
-    for(v=0; v<N; ++v){
-      if( PRINT ){ cout << "id " << V[v].id << " label " << V[v].label << " degree " << V[v].degree << " K " << V[v].K << endl; }
-    }
-
-  } else {
-    if( PRINT ){ cout << "Empty container." << endl; }
-  }
-  
+  // int v;
+  // 
+  // if( V!=0 && nvertices!=0 ){
+  // 
+  //   N    = nvertices;
+  //   
+  //   if( PRINT ){ cout << "Vertex Properties" << endl; }
+  // 
+  //   for(v=0; v<N; ++v){
+  //     if( PRINT ){ cout << "id " << V[v].id << " label " << V[v].label << " degree " << V[v].degree << " K " << V[v].K << endl; }
+  //   }
+  // 
+  // } else {
+  //   if( PRINT ){ cout << "Empty container." << endl; }
+  // }
+  // 
 
 }
 

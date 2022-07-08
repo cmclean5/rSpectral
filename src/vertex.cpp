@@ -149,8 +149,8 @@ void vertex::freeSpace(){
 void vertex::printV(){
 
   
-  if( PRINT ){ cout << "Vertex properties: " << endl; }
-  if( PRINT ){ cout << "id: " << id << ", degree " << degree << ", K " << K << ", bridge " << bridge << ", label " << label << ", E " << E << " [" << degree << "] , Kprobs " << Kprobs << " [" << Nk << "] , Nsamples " << Nsamples << " [" << Ns << "]" << endl; }
+  // if( PRINT ){ cout << "Vertex properties: " << endl; }
+  // if( PRINT ){ cout << "id: " << id << ", degree " << degree << ", K " << K << ", bridge " << bridge << ", label " << label << ", E " << E << " [" << degree << "] , Kprobs " << Kprobs << " [" << Nk << "] , Nsamples " << Nsamples << " [" << Ns << "]" << endl; }
   
 }
 

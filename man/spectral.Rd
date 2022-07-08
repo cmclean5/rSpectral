@@ -20,7 +20,7 @@ spectral(
 
 \item{names}{are we dealing with alphaNumeric (1) or numeric (!1) ids}
 
-\item{fix_neig}{}
+\item{fix_neig}{wether fixing neighbouring nodes found in same community}
 
 \item{verbose}{should be removed}
 

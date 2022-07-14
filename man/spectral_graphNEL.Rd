@@ -24,6 +24,7 @@ spectral_graphNEL(g, Cn_min = 1L, tol = 1e-05, names = 1L, fix_neig = 0L)
 Spectral clustering for \code{graphNEL} objects
 }
 \examples{
+library(graph)
 V = letters[1:12]
 g2 = randomEGraph(V, edges=20)
 mem.df = spectral_graphNEL(g2)

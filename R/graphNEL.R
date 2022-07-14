@@ -6,6 +6,7 @@
 #' @export
 #'
 #' @examples
+#' library(graph)
 #' V = letters[1:12]
 #' g2 = randomEGraph(V, edges=20)
 #' mem.df = spectral_graphNEL(g2)
@@ -14,7 +15,7 @@ spectral_graphNEL<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig =
   if(!inherits(g,'graphNEL')){
     stop('Graph should be "graphNEL" object.')
   }
-  led<-edges(g2)
+  led<-graph::edges(g2)
 l<-lapply(names(led),function(.x)data.frame(V1=rep(.x,length(led[[.x]])),V2=led[[.x]]))
 df<-do.call(rbind,l)
 rSpectral::load_data(df=df)

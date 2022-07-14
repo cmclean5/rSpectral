@@ -15,7 +15,7 @@ spectral_graphNEL<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig =
   if(!inherits(g,'graphNEL')){
     stop('Graph should be "graphNEL" object.')
   }
-  led<-graph::edges(g2)
+  led<-graph::edges(g)
 l<-lapply(names(led),function(.x)data.frame(V1=rep(.x,length(led[[.x]])),V2=led[[.x]]))
 df<-do.call(rbind,l)
 rSpectral::load_data(df=df)

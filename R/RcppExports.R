@@ -10,8 +10,8 @@ freeSpace <- function() {
 
 #' Load edge list for analysis
 #' 
-#' This function read edge list and create the network for analysis. It does 
-#' not return anything it just creates required structures in memory.
+#' This function reads the edge list and creates the network for analysis. It does 
+#' not return anything, it just creates required structures in memory.
 #'
 #' @param df edge list
 #' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
@@ -31,6 +31,15 @@ load_data <- function(df, names = 1L) {
 }
 
 #' Spectral modularity clustering
+#' 
+#' This function does the actual job of clustering. Two major parameter are
+#' \code{Cn_min}, which controls the minimal size of the cluster, 
+#' and \code{fix_neig}, which can reduce execution time by factor 2 to 5 by
+#' checking only boundary nodes of already found clusters. Optimal set of 
+#' parameters could be obtained by trying different combinations of values and
+#' using \code{detach_graph=0} when getting communities by calling 
+#' \code{\link{membership}}. 
+#'  
 #'
 #' @param Cn_min minimum cluster size
 #' @param tol tolerance
@@ -55,6 +64,12 @@ spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L) {
 
 #' Return membership data
 #'
+#' Returns membership data calculated by previous call to \code{\link{spectral}}.
+#' If \code{detach_grap} is set to 1 (default) all in-memory data will be cleaned up
+#' on return, if \code{detach_grap} is set to 0 the graph stays in memory,
+#' so several sets of parameters such as \code{fix_neig}, or \code{Cn_min} 
+#' could be evaluated to identify the best clustering for the graph at hand.
+#' 
 #' @param detach_graph whether you want to keep graph in memory
 #'
 #' @return membership vector

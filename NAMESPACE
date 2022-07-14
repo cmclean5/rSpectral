@@ -4,6 +4,7 @@ importFrom(igraph,modularity)
 importFrom(igraph,vcount)
 importFrom(graph,edges)
 importFrom(Rcpp,evalCpp)
+import(Rdpack)
 export(load_data,
        spectral,
        membership,

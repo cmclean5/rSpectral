@@ -7,13 +7,20 @@
 \alias{rSpectral-package}
 \title{rSpectral}
 \description{
-This package implements Spectral Modularity clustering algorithm for
-\code{igraph} and \code{graphNEL} graphs.
+This package implements the Spectral Modularity clustering algorithm for
+\code{\link{igraph}} and \code{\link[graph]{graphNEL}} graphs. The algorithm 
+was proposed in \insertCite{PhysRevE.74.036104}{rSpectral} and an example
+of its application to the real biological network could be found in
+\insertCite{Roy:2018Regional}{rSpectral}.
+}
+\references{
+\insertAllCited{}
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/cmclean5/rSpectral}
+  \item Report bugs at \url{https://github.com/cmclean5/rSpectral/issues/}
 }
 
 }

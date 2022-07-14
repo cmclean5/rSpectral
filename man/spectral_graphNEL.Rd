@@ -2,12 +2,12 @@
 % Please edit documentation in R/graphNEL.R
 \name{spectral_graphNEL}
 \alias{spectral_graphNEL}
-\title{Spectral clustering for \code{graphNEL} objects}
+\title{Spectral clustering for \code{\link[graph]{graphNEL}} objects}
 \usage{
 spectral_graphNEL(g, Cn_min = 1L, tol = 1e-05, names = 1L, fix_neig = 0L)
 }
 \arguments{
-\item{g}{\code{graphNEL} object}
+\item{g}{\code{\link[graph]{graphNEL}} object}
 
 \item{Cn_min}{minimum cluster size}
 
@@ -21,7 +21,7 @@ spectral_graphNEL(g, Cn_min = 1L, tol = 1e-05, names = 1L, fix_neig = 0L)
 \code{data.frame} with node names and membership information
 }
 \description{
-Spectral clustering for \code{graphNEL} objects
+Spectral clustering for \code{\link[graph]{graphNEL}} objects
 }
 \examples{
 library(graph)

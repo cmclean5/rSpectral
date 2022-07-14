@@ -1,6 +1,6 @@
-#' Spectral clustering for \code{graphNEL} objects
+#' Spectral clustering for \code{\link[graph]{graphNEL}} objects
 #'
-#' @param g \code{graphNEL} object
+#' @param g \code{\link[graph]{graphNEL}} object
 #' @inheritParams spectral
 #' @return \code{data.frame} with node names and membership information
 #' @export

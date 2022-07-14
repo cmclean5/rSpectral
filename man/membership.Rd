@@ -13,7 +13,11 @@ membership(detach_graph = 1L)
 membership vector
 }
 \description{
-Return membership data
+Returns membership data calculated by previous call to \code{\link{spectral}}.
+If \code{detach_grap} is set to 1 (default) all in-memory data will be cleaned up
+on return, if \code{detach_grap} is set to 0 the graph stays in memory,
+so several sets of parameters such as \code{fix_neig}, or \code{Cn_min} 
+could be evaluated to identify the best clustering for the graph at hand.
 }
 \examples{
 library(igraph)

@@ -12,8 +12,8 @@ load_data(df, names = 1L)
 \item{names}{are we dealing with alphaNumeric (1) or numeric (!1) ids}
 }
 \description{
-This function read edge list and create the network for analysis. It does 
-not return anything it just creates required structures in memory.
+This function reads the edge list and creates the network for analysis. It does 
+not return anything, it just creates required structures in memory.
 }
 \examples{
 library(igraph)

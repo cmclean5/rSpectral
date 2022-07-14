@@ -25,7 +25,7 @@ spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, f
 #'
 #' @param g \code{igraph} object
 #' @inheritParams spectral
-#' @return \code{communities} object
+#' @return \code{\link[igraph]{communities}} object
 #' @export
 #' @importFrom igraph modularity vcount
 #'

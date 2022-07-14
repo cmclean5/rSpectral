@@ -1,7 +1,10 @@
 #' rSpectral
 #' 
-#' This package implements Spectral Modularity clustering algorithm for
-#' \code{igraph} and \code{graphNEL} graphs. 
+#' This package implements the Spectral Modularity clustering algorithm for
+#' \code{\link{igraph}} and \code{\link[graph]{graphNEL}} graphs. The algorithm 
+#' was proposed in \insertCite{PhysRevE.74.036104}{rSpectral} and an example
+#' of its application to the real biological network could be found in
+#' \insertCite{Roy:2018Regional}{rSpectral}. 
 #' 
 #' @docType package
 #' @encoding UTF-8
@@ -9,6 +12,10 @@
 #' @importFrom Rcpp evalCpp
 #' @useDynLib rSpectral
 #' @name rSpectral
+
+#' @references
+#' \insertAllCited{}
+#' @importFrom Rdpack reprompt
 #' 
 "_PACKAGE"
 

@@ -15,4 +15,9 @@ Depends: R (>= 4.2.0)
 Imports: Rcpp (>= 1.0.8.3), Rdpack, igraph, graph
 RdMacros: Rdpack
 LinkingTo: Rcpp, RcppArmadillo
-Suggests: RColorBrewer, Rgraphviz,igraphdata
+Suggests: 
+    RColorBrewer,
+    Rgraphviz,
+    igraphdata,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

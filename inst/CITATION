@@ -17,9 +17,9 @@ citEntry(
   number   = 3,
   pages    = 31,
   url      = "https://www.mdpi.com/2227-7382/6/3/31",
-  textVersion = paste("Roy M, Sorokina O, McLean C, Tapia-González S, "
-                      "DeFelipe J, Armstrong JD, Grant SGN. "
-                      "Regional Diversity in the Postsynaptic "
-                      "Proteome of the Mouse Brain. Proteomes. 2018; "
+  textVersion = paste("Roy M, Sorokina O, McLean C, Tapia-González S, ",
+                      "DeFelipe J, Armstrong JD, Grant SGN. ",
+                      "Regional Diversity in the Postsynaptic ",
+                      "Proteome of the Mouse Brain. Proteomes. 2018; ",
                       "6(3):31. https://doi.org/10.3390/proteomes6030031")
 )

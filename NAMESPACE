@@ -7,4 +7,7 @@ importFrom(Rcpp,evalCpp)
 export(load_data,
        spectral,
        membership,
-       freeSpace)
+       freeSpace,
+       spectral_graphNEL,
+       spectral_igraph_membership,
+       spectral_igraph_communities)

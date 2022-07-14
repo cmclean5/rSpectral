@@ -24,7 +24,7 @@ spectral_igraph_communities(
 \item{fix_neig}{wether fixing neighbouring nodes found in same community}
 }
 \value{
-\code{communitios} object
+\code{communities} object
 }
 \description{
 Spectral clustering for \code{igraph} objects

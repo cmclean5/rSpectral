@@ -13,4 +13,4 @@ RoxygenNote: 7.2.0
 Depends: R (>= 4.2.0)
 Imports: Rcpp (>= 1.0.8.3), igraph, graph
 LinkingTo: Rcpp, RcppArmadillo
-Suggests: RColorBrewer, Rgraphviz
+Suggests: RColorBrewer, Rgraphviz,igraphdata

@@ -1,4 +1,7 @@
 useDynLib(rSpectral)
+importFrom(igraph,get.edgelist)
+importFrom(igraph,modularity)
+importFrom(igraph,vcount)
 importFrom(graph,edges)
 importFrom(Rcpp,evalCpp)
 export(load_data,

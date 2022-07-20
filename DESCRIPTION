@@ -1,7 +1,7 @@
 Package: rSpectral
 Type: Package
 Title: Spectral Modularity Clustering
-Version: 1.0.0.1
+Version: 1.0.0.2
 Author: Colin Mclean <Colin.D.Mclean@ed.ac.uk>
 Maintainer: Anatoly Sorokin <lptolik@gmail.com>
 Description: Implementation of Spectral Modularity Clustering from

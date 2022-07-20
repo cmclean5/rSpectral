@@ -4,7 +4,9 @@ Title: Spectral Modularity Clustering
 Version: 1.0
 Author: Colin Mclean <Colin.D.Mclean@ed.ac.uk>
 Maintainer: Anatoly Sorokin <lptolik@gmail.com>
-Description: Implementation of Spectral Modularity Clustering. 
+Description: Implementation of Spectral Modularity Clustering from
+    M. E. J. Newman, (2006) "Finding community structure in networks using 
+    the eigenvectors of matrices" <doi:10.1103/PhysRevE.74.036104>. 
 URL: https://github.com/cmclean5/rSpectral
 BugReports: https://github.com/cmclean5/rSpectral/issues/
 License: GPL-2

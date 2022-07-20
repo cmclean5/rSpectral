@@ -1,4 +1,6 @@
 #include "SpectralModularity.h"
+#include <Rcpp.h>
+//using namespace Rcpp;
 
 /*
   Use of the stack for memory allocation. This 
@@ -447,8 +449,10 @@ void SpectralModularity::modifySplit( int countmax ){
   count = 0;    Ng   = NR_Bgi; KK = (2*Ng);
   qmax  = 0.0;  qold = 0.0;
     
-  double Gsi[Ng];
-  double GSI[KK];
+  //double Gsi[Ng];
+  //double GSI[KK];
+  Rcpp::NumericVector Gsi(Ng);
+  Rcpp::NumericVector GSI(KK);
 
   for(k=0; k<Ng; k++){ Gsi[k] = si[k]; }
   
@@ -505,7 +509,8 @@ void SpectralModularity::maxModularity(double &qmax){
   
   Ng = NR_Bgi;
    
-  double qstored[Ng];
+  //double qstored[Ng];
+  Rcpp::NumericVector qstored(Ng);
   Q = 0.0;
      
   for(k=0; k<Ng; k++){

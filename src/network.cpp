@@ -1,4 +1,6 @@
 #include "network.h"
+#include <Rcpp.h>
+//using namespace Rcpp;
 
 network::network() : vertex() {
 
@@ -322,7 +324,8 @@ void network::removeVertices( int keys[], int length, int dummy ){
 
     //construct temp A
     KK = Ng * Ng;
-    double tA[KK];
+    //double tA[KK];
+    double* tA = (double*)malloc(KK*sizeof(double));
     
     for(k=0, p=0; k<KKin; k++){
 
@@ -493,7 +496,8 @@ void network::reorderK(){
 
     N = nvertices;
     
-    int temp[N];
+    //int temp[N];
+    Rcpp::IntegerVector  temp(N);
     counter = getMinK();
     Knew    = 1;
     Kmax    = getMaxK();

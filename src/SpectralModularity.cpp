@@ -407,7 +407,8 @@ void SpectralModularity::deltaModularity( double &mod ){
 
   sum = 0.0; sum1 = 0.0; sum2 = 0.0;
 
-  double SIt[(2*Ng)];
+  //double SIt[(2*Ng)];
+  double* SIt = (double*)malloc(2*Ng*sizeof(double));
 
   for(i=0; i<Ng; i++){
     SIt[(i*2)+0] = 0;
@@ -429,7 +430,7 @@ void SpectralModularity::deltaModularity( double &mod ){
      sum += SI[(i*2)+j] * SIt[(i*2)+j];
     
    }  
- 
+  free(SIt);
   mod = NORM * sum;
  
 }

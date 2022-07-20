@@ -23,3 +23,4 @@ for(i in 1:500){
 
     cat(format(Sys.time(), "%b %d %X"),i,'Finished.\n',file = logFile,append = TRUE)
 }
+cat(format(Sys.time(), "%b %d %X"),i,'Done 500 times.\n',file = logFile,append = TRUE)

@@ -148,15 +148,9 @@ void load_data ( Rcpp::DataFrame     df,
 //' into two new communities, until we are unable to find any division that results in a positive change
 //' in Modularity. An additional stopping criteria, based on the minimum cluster size \code{Cn_min}, is
 //' also provided.
-
-//' This function does the actual job of clustering. Two major parameter are
-//' \code{Cn_min}, which controls the minimal size of the cluster, 
-//' and \code{fix_neig}, which can reduce execution time by factor 2 to 5 by
-//' checking only boundary nodes of already found clusters. Optimal set of 
-//' parameters could be obtained by trying different combinations of values and
-//' using \code{detach_graph=0} when getting communities by calling 
-//' \code{\link{membership}}. 
-//'  
+//'
+//' Optimal set of parameters could be obtained by trying different combinations of values and using
+//' \code{detach_graph=0} when getting communities by calling \code{\link{membership}}. 
 //'
 //' @param Cn_min minimum cluster size
 //' @param tol tolerance

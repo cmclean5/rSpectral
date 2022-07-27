@@ -1,0 +1,120 @@
+---
+title: "Karate network"
+author: "Oksana Sorokina"
+date: '2022-07-27'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r network}
+suppressPackageStartupMessages(library(pander))
+suppressPackageStartupMessages(library(igraph))
+suppressPackageStartupMessages(library(rSpectral))
+data(karate,package='igraphdata')
+clist<-list()
+clist[["wt"]]=igraph::membership(igraph::walktrap.community(karate))
+clist[["fc"]]=igraph::membership(igraph::fastgreedy.community(karate))
+clist[["infomap"]]=igraph::membership(igraph::cluster_infomap(karate))
+clist[["louvain"]]=igraph::membership(igraph::cluster_louvain(karate))
+clist[["sgG1"]]=igraph::membership(igraph::spinglass.community(karate,
+                                 spins=as.numeric(500),gamma=1))
+clist[["sgG2"]]=igraph::membership(igraph::spinglass.community(karate,
+                                 spins=as.numeric(500),gamma=2))
+clist[["sgG5"]]=igraph::membership(igraph::spinglass.community(karate,
+                                 spins=as.numeric(500),gamma=5))
+clist[["spectral.10"]]=igraph::membership(rSpectral::spectral_igraph_communities(karate,
+                                                Cn_min=1,fix_neig = 0))
+clist[["spectral.11"]]=igraph::membership(rSpectral::spectral_igraph_communities(karate,
+                                                Cn_min=1,fix_neig = 1))
+clist[["spectral.50"]]=igraph::membership(rSpectral::spectral_igraph_communities(karate,
+                                                Cn_min=5,fix_neig = 0))
+clist[["spectral.51"]]=igraph::membership(rSpectral::spectral_igraph_communities(karate,
+                                                Cn_min=5,fix_neig = 1))
+clist[["Faction"]]=V(karate)$Faction
+```
+
+## Estimate clustering similiarity by RMI (Newman’s Reduced Mutual Information)
+```{r rmi}
+library(clustAnalytics)
+alg<-c('wt','fc','infomap','louvain','sgG1','sgG2','sgG5','spectral.10','spectral.11','spectral.50','spectral.51','Faction')
+res <- matrix(0, nrow = length(alg), ncol = length(alg))
+for (i in 1:length(alg)){
+  for (j in 1:length(alg)){
+    mi<-clist[[alg[i]]]
+    mj<-clist[[alg[j]]]
+    res[i,j] <- reduced_mutual_information(mi, mj, normalized = T)
+  }
+}
+colnames(res) <- alg
+row.names(res) <- alg
+pander(res)
+library(corrplot)
+corrplot(res, method = "square", order = 'hclust')
+library(gplots)
+heatmap.2(
+  res, distfun = dist,
+  hclustfun = hclust,
+  col="heat.colors",
+  trace='none')
+```
+
+# Karate graph clustering view
+## Ground Truth (Faction)
+```{r gTruth.layout,fig.height=8,fig.width=8}
+ln<-layout_nicely(karate)
+plot(karate,layout=ln)
+```
+
+## Fastgreedy community
+```{r fastgreedy.community.layout,fig.height=8,fig.width=8}
+sm<-igraph::fastgreedy.community(karate)
+pal<-RColorBrewer::brewer.pal(max(sm$membership),'Set1')
+plot(karate,layout=ln,vertex.color=pal[sm$membership])
+```
+
+## Infomap
+```{r infomap.layout,fig.height=8,fig.width=8}
+sm<-igraph::cluster_infomap(karate)
+pal<-RColorBrewer::brewer.pal(max(sm$membership),'Set1')
+plot(karate,layout=ln,vertex.color=pal[sm$membership])
+```
+
+## Louvain
+```{r louvain.layout,fig.height=8,fig.width=8}
+sm<-igraph::cluster_louvain(karate)
+pal<-RColorBrewer::brewer.pal(max(sm$membership),'Set1')
+plot(karate,layout=ln,vertex.color=pal[sm$membership])
+```
+
+## rSpectral
+```{r rSpectral.layout,fig.height=8,fig.width=8}
+sm<-rSpectral::spectral_igraph_communities(karate,
+Cn_min=1,fix_neig = 0)
+pal<-RColorBrewer::brewer.pal(max(sm$membership),'Set1')
+plot(karate,layout=ln,vertex.color=pal[sm$membership])
+```
+
+
+
+## rSpectral.cpp
+```{r rSpectral.cpp.layout,fig.height=8,fig.width=8}
+el = as.data.frame(igraph::get.edgelist(karate,names=T))
+rSpectral::load_data(df=el)
+status = rSpectral::spectral(fix_neig=1)
+spec   = rSpectral::membership(detach_graph=1)
+idx<-match(V(karate)$name,spec$ID)
+plot(karate,layout=ln,vertex.color=pal[spec$K[idx]])
+```
+
+

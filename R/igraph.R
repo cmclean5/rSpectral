@@ -17,7 +17,8 @@ spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, f
   rSpectral::load_data(df=el)
   status = rSpectral::spectral(fix_neig=1)
   spec   = rSpectral::membership(detach_graph=1)
-  spec.df<- data.frame(names=spec$ID,membership=spec$K)
+  idx<-match(V(g)$name,spec$ID)
+  spec.df<- data.frame(names=spec$ID[idx],membership=spec$K[idx])
   return(spec.df)
 }
 

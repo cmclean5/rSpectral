@@ -13,9 +13,9 @@ spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, f
   if(!inherits(g,'igraph')){
     stop('Graph should be "igraph" object.')
   }
-  el = as.data.frame(igraph::get.edgelist(g,names=T))
+  el = as.data.frame(igraph::get.edgelist(g,names=TRUE))
   rSpectral::load_data(df=el)
-  status = rSpectral::spectral(fix_neig=1)
+  status = rSpectral::spectral(Cn_min=Cn_min,tol=tol,names=names,fix_neig=fix_neig)
   spec   = rSpectral::membership(detach_graph=1)
   idx<-match(V(g)$name,spec$ID)
   spec.df<- data.frame(names=spec$ID[idx],membership=spec$K[idx])
@@ -37,7 +37,7 @@ spectral_igraph_communities<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, 
   if(!inherits(g,'igraph')){
     stop('Graph should be "igraph" object.')
   }
-  df.mem<-spectral_igraph_membership(g)
+  df.mem<-spectral_igraph_membership(g,Cn_min=Cn_min,tol=tol,names=names,fix_neig=fix_neig)
   res<-list()
   res$vcount <- igraph::vcount(g)
   res$algorithm <- "spectral"

@@ -369,7 +369,7 @@ void network::removeVertices( int keys[], int length, int dummy ){
     checkVertexDegree( tA  );    
     
     // if( PRINT ){cout << "done." << endl; }
-
+    free(tA);
   }
   
   

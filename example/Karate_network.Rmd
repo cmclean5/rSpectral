@@ -110,9 +110,9 @@ plot(karate,layout=ln,vertex.color=pal[sm$membership])
 ## rSpectral.cpp
 ```{r rSpectral.cpp.layout,fig.height=8,fig.width=8}
 el = as.data.frame(igraph::get.edgelist(karate,names=T))
-rSpectral::load_data(df=el)
-status = rSpectral::spectral(fix_neig=1)
-spec   = rSpectral::membership(detach_graph=1)
+rSpectral:::load_data(df=el)
+status = rSpectral:::spectral(fix_neig=1)
+spec   = rSpectral:::membership(detach_graph=1)
 idx<-match(V(karate)$name,spec$ID)
 plot(karate,layout=ln,vertex.color=pal[spec$K[idx]])
 ```

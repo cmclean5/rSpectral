@@ -14,10 +14,10 @@ spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, f
     stop('Graph should be "igraph" object.')
   }
   el = as.data.frame(igraph::get.edgelist(g,names=TRUE))
-  rSpectral::load_data(df=el)
-  status = rSpectral::spectral(Cn_min=Cn_min,tol=tol,names=names,fix_neig=fix_neig)
-  spec   = rSpectral::membership(detach_graph=1)
-  idx<-match(V(g)$name,spec$ID)
+  rSpectral:::load_data(df=el)
+  status = rSpectral:::spectral(Cn_min=Cn_min,tol=tol,names=names,fix_neig=fix_neig)
+  spec   = rSpectral:::membership(detach_graph=1)
+  idx<-match(igraph::V(g)$name,spec$ID)
   spec.df<- data.frame(names=spec$ID[idx],membership=spec$K[idx])
   return(spec.df)
 }

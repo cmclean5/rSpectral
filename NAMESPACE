@@ -2,13 +2,10 @@ useDynLib(rSpectral)
 importFrom(igraph,get.edgelist)
 importFrom(igraph,modularity)
 importFrom(igraph,vcount)
+importFrom(igraph,V)
 importFrom(graph,edges)
 importFrom(Rcpp,evalCpp)
 import(Rdpack)
-export(load_data,
-       spectral,
-       membership,
-       freeSpace,
-       spectral_graphNEL,
+export(spectral_graphNEL,
        spectral_igraph_membership,
        spectral_igraph_communities)

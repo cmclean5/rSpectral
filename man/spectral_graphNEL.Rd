@@ -15,7 +15,7 @@ spectral_graphNEL(g, Cn_min = 1L, tol = 1e-05, names = 1L, fix_neig = 0L)
 
 \item{names}{are we dealing with alphaNumeric (1) or numeric (!1) ids}
 
-\item{fix_neig}{wether fixing neighbouring nodes found in same community}
+\item{fix_neig}{whether to fix neighbouring nodes found in same community}
 }
 \value{
 \code{data.frame} with node names and membership information

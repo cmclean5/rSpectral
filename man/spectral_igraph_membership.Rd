@@ -21,7 +21,7 @@ spectral_igraph_membership(
 
 \item{names}{are we dealing with alphaNumeric (1) or numeric (!1) ids}
 
-\item{fix_neig}{wether fixing neighbouring nodes found in same community}
+\item{fix_neig}{whether to fix neighbouring nodes found in same community}
 }
 \value{
 \code{data.frame} with node names and membership information

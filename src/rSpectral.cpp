@@ -157,8 +157,6 @@ void load_data ( Rcpp::DataFrame     df,
 //' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
 //' @param fix_neig whether to fix neighbouring nodes found in same community
 //'
-//' @return status (does it really return something?)
-//' @export
 //' @examples
 //' library(igraph)
 //' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)

@@ -30,24 +30,40 @@ load_data <- function(df, names = 1L) {
     invisible(.Call('_rSpectral_load_data', PACKAGE = 'rSpectral', df, names))
 }
 
-#' Spectral modularity clustering
-#' 
-#' This function does the actual job of clustering. Two major parameter are
-#' \code{Cn_min}, which controls the minimal size of the cluster, 
-#' and \code{fix_neig}, which can reduce execution time by factor 2 to 5 by
-#' checking only boundary nodes of already found clusters. Optimal set of 
-#' parameters could be obtained by trying different combinations of values and
-#' using \code{detach_graph=0} when getting communities by calling 
-#' \code{\link{membership}}. 
-#'  
+#' This function implements the network clustering algorithm described in
+#' (M. E. J. Newman, 2006). The complete iterative algorithm comprises of two steps. In the
+#' first step, the network is expressed in terms of its leading eigenvalue and eigenvector
+#' and recursively partition into two communities. Partitioning occurs if the maximum
+#' positive eigenvalue is greater than the tolerance (\code{tol=10-5}) for the current
+#' partition, and if it results in a positive contribution to the Modularity.
+#'
+#' Given an initial separation using the leading eigen step, the function then continues to
+#' maximise for the change in Modularity using a fine-tuning step - or variate thereof. The
+#' first stage here is to find the node which, when moved from one community to another,
+#' gives the maximum change in Modularity. This node’s community is then fixed and we repeat
+#' the process until all nodes have been moved. The whole process is repeated from this new
+#' state until the change in the Modularity, between the new and old state, is less than the
+#' predefined tolerance (\code{tol}).
+#'
+#' A slight variant of the fine-tuning step, which can reduce execution time by factor 2 to
+#' 5, is also provided. Instead of moving each node into each community in turn, we only
+#' consider moves of neighbouring nodes, found in different communities, to the community of
+#' the current node of interest. This variant of the node-moving algorithm effectively `fixes`
+#' neigbouring nodes \code{fix_neig} in the community being considered.
+#'
+#' The two steps process is repeatedly applied to each new community found, subdivided each community
+#' into two new communities, until we are unable to find any division that results in a positive change
+#' in Modularity. An additional stopping criteria, based on the minimum cluster size \code{Cn_min}, is
+#' also provided.
+#'
+#' Optimal set of parameters could be obtained by trying different combinations of values and using
+#' \code{detach_graph=0} when getting communities by calling \code{\link{membership}}. 
 #'
 #' @param Cn_min minimum cluster size
 #' @param tol tolerance
 #' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
-#' @param fix_neig wether fixing neighbouring nodes found in same community
+#' @param fix_neig whether to fix neighbouring nodes found in same community
 #'
-#' @return status (does it really return something?)
-#' @export
 #' @examples
 #' library(igraph)
 #' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)

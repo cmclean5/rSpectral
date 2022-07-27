@@ -30,3 +30,6 @@ g2 = randomEGraph(V, edges=20)
 mem.df = spectral_graphNEL(g2)
 head(mem.df)
 }
+\seealso{
+\code{\link{spectral_igraph_membership}}
+}

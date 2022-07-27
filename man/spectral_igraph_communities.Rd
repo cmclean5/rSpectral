@@ -27,7 +27,9 @@ spectral_igraph_communities(
 \code{\link[igraph]{communities}} object
 }
 \description{
-Spectral clustering for \code{igraph} objects
+This function invoke \code{\link{spectral_igraph_membership}} to calculate
+clustering and convert it into \code{\link[igraph]{communites}} object for
+seamless work with native \code{\link{igraph}} clustering functions.
 }
 \examples{
 data(karate,package='igraphdata')

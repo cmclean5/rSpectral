@@ -3,7 +3,7 @@
 
 #' Clean things up
 #'
-#' @export
+#' @noRd
 freeSpace <- function() {
     invisible(.Call('_rSpectral_freeSpace', PACKAGE = 'rSpectral'))
 }
@@ -15,8 +15,7 @@ freeSpace <- function() {
 #'
 #' @param df edge list
 #' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
-#'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' library(igraph)
@@ -30,8 +29,12 @@ load_data <- function(df, names = 1L) {
     invisible(.Call('_rSpectral_load_data', PACKAGE = 'rSpectral', df, names))
 }
 
+#' Spectral modularity calculation function
+#' 
 #' This function implements the network clustering algorithm described in
-#' (M. E. J. Newman, 2006). The complete iterative algorithm comprises of two steps. In the
+#' (M. E. J. Newman, 2006). 
+#' 
+#' The complete iterative algorithm comprises of two steps. In the
 #' first step, the network is expressed in terms of its leading eigenvalue and eigenvector
 #' and recursively partition into two communities. Partitioning occurs if the maximum
 #' positive eigenvalue is greater than the tolerance (\code{tol=10-5}) for the current
@@ -63,6 +66,8 @@ load_data <- function(df, names = 1L) {
 #' @param tol tolerance
 #' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
 #' @param fix_neig whether to fix neighbouring nodes found in same community
+#' 
+#' @noRd
 #'
 #' @examples
 #' library(igraph)
@@ -87,9 +92,10 @@ spectral <- function(Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L) {
 #' could be evaluated to identify the best clustering for the graph at hand.
 #' 
 #' @param detach_graph whether you want to keep graph in memory
+#' 
+#' @noRd
 #'
 #' @return membership vector
-#' @export
 #'
 #' @examples
 #' library(igraph)

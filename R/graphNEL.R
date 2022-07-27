@@ -1,9 +1,14 @@
 #' Spectral clustering for \code{\link[graph]{graphNEL}} objects
 #'
 #' @param g \code{\link[graph]{graphNEL}} object
-#' @inheritParams spectral
+#' @param Cn_min minimum cluster size
+#' @param tol tolerance
+#' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
+#' @param fix_neig whether to fix neighbouring nodes found in same community
+#' 
 #' @return \code{data.frame} with node names and membership information
 #' @export
+#' @seealso \code{\link{spectral_igraph_membership}}
 #'
 #' @examples
 #' library(graph)

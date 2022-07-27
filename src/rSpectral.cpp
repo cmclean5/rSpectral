@@ -11,7 +11,7 @@ SpectralModularity *model = nullptr;
 
 //' Clean things up
 //'
-//' @export
+//' @noRd
 // [[Rcpp::export]]
  void freeSpace(){
 
@@ -30,8 +30,7 @@ SpectralModularity *model = nullptr;
 //'
 //' @param df edge list
 //' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
-//'
-//' @export
+//' @noRd
 //'
 //' @examples
 //' library(igraph)
@@ -123,8 +122,12 @@ void load_data ( Rcpp::DataFrame     df,
 
 }//load_data
 
+//' Spectral modularity calculation function
+//' 
 //' This function implements the network clustering algorithm described in
-//' (M. E. J. Newman, 2006). The complete iterative algorithm comprises of two steps. In the
+//' (M. E. J. Newman, 2006). 
+//' 
+//' The complete iterative algorithm comprises of two steps. In the
 //' first step, the network is expressed in terms of its leading eigenvalue and eigenvector
 //' and recursively partition into two communities. Partitioning occurs if the maximum
 //' positive eigenvalue is greater than the tolerance (\code{tol=10-5}) for the current
@@ -156,6 +159,8 @@ void load_data ( Rcpp::DataFrame     df,
 //' @param tol tolerance
 //' @param names are we dealing with alphaNumeric (1) or numeric (!1) ids
 //' @param fix_neig whether to fix neighbouring nodes found in same community
+//' 
+//' @noRd
 //'
 //' @examples
 //' library(igraph)
@@ -291,9 +296,10 @@ void spectral( Rcpp::IntegerVector Cn_min=1,
 //' could be evaluated to identify the best clustering for the graph at hand.
 //' 
 //' @param detach_graph whether you want to keep graph in memory
+//' 
+//' @noRd
 //'
 //' @return membership vector
-//' @export
 //'
 //' @examples
 //' library(igraph)

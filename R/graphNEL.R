@@ -23,9 +23,9 @@ spectral_graphNEL<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig =
   led<-graph::edges(g)
 l<-lapply(names(led),function(.x)data.frame(V1=rep(.x,length(led[[.x]])),V2=led[[.x]]))
 df<-do.call(rbind,l)
-rSpectral:::load_data(df=df)
-status = rSpectral:::spectral(fix_neig=1)
-spec   = rSpectral:::membership(detach_graph=1)
+load_data(df=df)
+status = spectral(fix_neig=1)
+spec   = membership(detach_graph=1)
 spec.df<- data.frame(names=spec$ID,membership=spec$K)
 return(spec.df)
 }

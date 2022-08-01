@@ -28,7 +28,7 @@ spectral_igraph_communities(
 }
 \description{
 This function invoke \code{\link{spectral_igraph_membership}} to calculate
-clustering and convert it into \code{\link[igraph]{communites}} object for
+clustering and convert it into \code{\link[igraph]{communities}} object for
 seamless work with native \code{\link{igraph}} clustering functions.
 }
 \examples{

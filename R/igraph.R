@@ -47,9 +47,9 @@ spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, f
     stop('Graph should be "igraph" object.')
   }
   el = as.data.frame(igraph::get.edgelist(g,names=TRUE))
-  rSpectral:::load_data(df=el)
-  status = rSpectral:::spectral(Cn_min=Cn_min,tol=tol,names=names,fix_neig=fix_neig)
-  spec   = rSpectral:::membership(detach_graph=1)
+  load_data(df=el)
+  status = spectral(Cn_min=Cn_min,tol=tol,names=names,fix_neig=fix_neig)
+  spec   = membership(detach_graph=1)
   idx<-match(igraph::V(g)$name,spec$ID)
   spec.df<- data.frame(names=spec$ID[idx],membership=spec$K[idx])
   return(spec.df)
@@ -58,7 +58,7 @@ spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, f
 #' Spectral clustering for \code{igraph} objects
 #' 
 #' This function invoke \code{\link{spectral_igraph_membership}} to calculate
-#' clustering and convert it into \code{\link[igraph]{communites}} object for
+#' clustering and convert it into \code{\link[igraph]{communities}} object for
 #' seamless work with native \code{\link{igraph}} clustering functions.
 #'
 #' @inheritParams spectral_igraph_membership

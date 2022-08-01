@@ -15,14 +15,14 @@ test_that("proper class argument is provided", {
 
 test_that('membership fix_neig=0 is correct',{
   c<-rSpectral::spectral_igraph_communities(karate)
-  expect_equal(c$membership,exp_mem10)
+  expect_equal(igraph::compare(c$membership,exp_mem10,'rand'),1)
   expect_equal(c$modularity,exp_mod10,tolerance=1e-5)
   expect_equal(c$algorithm,'spectral')
 })
 
 test_that('membership fix_neig=1 is correct',{
   c<-rSpectral::spectral_igraph_communities(karate,fix_neig = 1)
-  expect_equal(c$membership,exp_mem11)
+  expect_equal(igraph::compare(c$membership,exp_mem11,'rand'),1)
   expect_equal(c$modularity,exp_mod11,tolerance=1e-5)
   expect_equal(c$algorithm,'spectral')
 })

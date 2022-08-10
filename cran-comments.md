@@ -6,6 +6,7 @@
 
 ## Notes
 
-* fixed package description
+* extended package description
 * removed Rd files for non-export functions
-* clean up author definitions
+* clean up the author definitions
+* rephrase package description

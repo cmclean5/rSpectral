@@ -1,14 +1,14 @@
 Package: rSpectral
 Type: Package
 Title: Spectral Modularity Clustering
-Version: 1.0.0.5
+Version: 1.0.0.6
 Authors@R: c(
     person("Colin", "Mclean", 
         email="Colin.D.Mclean@ed.ac.uk", role="aut", 
         comment ="algorithm implementation in Rcpp functions"), 
     person("Anatoly", "Sorokin", 
         email="lptolik@gmail.com", role=c("aut", "cre")))
-Description: rSpectral implements the network clustering algorithm described in 
+Description: This package implements the network clustering algorithm described in 
             (M. E. J. Newman, 2006). The complete iterative algorithm comprises 
             of two steps. In the first step, the network is expressed in terms 
             of its leading eigenvalue and eigenvector and recursively partition 

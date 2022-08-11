@@ -69,6 +69,56 @@ heatmap.2(
   trace='none')
 ```
 
+## Estimate clustering similiarity by Rand index
+```{r rand}
+library(clustAnalytics)
+alg<-c('wt','fc','infomap','louvain','sgG1','sgG2','sgG5','spectral.10','spectral.11','spectral.50','spectral.51','Faction')
+res <- matrix(0, nrow = length(alg), ncol = length(alg))
+for (i in 1:length(alg)){
+  for (j in 1:length(alg)){
+    mi<-clist[[alg[i]]]
+    mj<-clist[[alg[j]]]
+    res[i,j] <- compare(mi, mj, 'rand')
+  }
+}
+colnames(res) <- alg
+row.names(res) <- alg
+pander(res)
+library(corrplot)
+corrplot(res, method = "square", order = 'hclust')
+library(gplots)
+heatmap.2(
+  res, distfun = dist,
+  hclustfun = hclust,
+  col="heat.colors",
+  trace='none')
+```
+
+## Estimate clustering similiarity by adjusted Rand index
+```{r adj.rand}
+library(clustAnalytics)
+alg<-c('wt','fc','infomap','louvain','sgG1','sgG2','sgG5','spectral.10','spectral.11','spectral.50','spectral.51','Faction')
+res <- matrix(0, nrow = length(alg), ncol = length(alg))
+for (i in 1:length(alg)){
+  for (j in 1:length(alg)){
+    mi<-clist[[alg[i]]]
+    mj<-clist[[alg[j]]]
+    res[i,j] <- compare(mi, mj, 'adj')
+  }
+}
+colnames(res) <- alg
+row.names(res) <- alg
+pander(res)
+library(corrplot)
+corrplot(res, method = "square", order = 'hclust')
+library(gplots)
+heatmap.2(
+  res, distfun = dist,
+  hclustfun = hclust,
+  col="heat.colors",
+  trace='none')
+```
+
 # Karate graph clustering view
 ## Ground Truth (Faction)
 ```{r gTruth.layout,fig.height=8,fig.width=8}

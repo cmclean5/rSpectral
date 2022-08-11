@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of rSpectral is to make Spectral Modularity graph clustering
+The goal of ‘rSpectral’ is to make Spectral Modularity graph clustering
 method available to most of R graph frameworks.
 
 ## Installation
@@ -23,16 +23,13 @@ devtools::install_github("cmclean5/rSpectral")
 
 This is a basic example which shows you how to solve a common problem
 
-1.  load the karate club graph:
+1.  load the karate club graph and plot Faction membership:
 
 ``` r
 library(rSpectral)
 library(igraph)
 #> 
 #> Attaching package: 'igraph'
-#> The following object is masked from 'package:rSpectral':
-#> 
-#>     membership
 #> The following objects are masked from 'package:stats':
 #> 
 #>     decompose, spectrum
@@ -41,76 +38,61 @@ library(igraph)
 #>     union
 data(karate, package="igraphdata")
 l<-layout_nicely(karate)
+memT<-V(karate)$Faction
+palette <- rainbow(max(as.numeric(memT)))
+plot(karate,vertex.color=palette[memT],layout=l)
 ```
 
-2.  store graph’s edges as data.frame
+<img src="man/figures/README-karate.example-1.png" width="100%" />
+
+2.  run spectral clustering on graph
 
 ``` r
-el = as.data.frame(get.edgelist(karate,names=T))
-
-rSpectral::load_data(df=el)
+mem0<-igraph::membership(rSpectral::spectral_igraph_communities(karate))
 ```
 
-3.  run spectral clustering on graph
-
-``` r
-status = rSpectral::spectral(fix_neig=0)
-spec0   = rSpectral::membership(detach_graph=0)
-
-idx<-match(V(karate)$name,spec0$ID)
-mem0<-spec0$K[idx]
-```
-
-4.  plot the graph with membership colors
+3.  plot the graph with membership colors
 
 ``` r
 palette <- rainbow(max(as.numeric(mem0)))
 plot(karate,vertex.color=palette[mem0],layout=l)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-plot.rspec.default-1.png" width="100%" />
 
-5.  run spectral clustering on graph, fixing neighbouring nodes found in
+4.  run spectral clustering on graph, fixing neighbouring nodes found in
     same community
 
 ``` r
-status = rSpectral::spectral(fix_neig=1)
-spec1   = rSpectral::membership(detach_graph=0)
-idx<-match(V(karate)$name,spec1$ID)
-mem1<-spec1$K[idx]
+mem1<-igraph::membership(
+  rSpectral::spectral_igraph_communities(karate, fix_neig=1))
 ```
 
-6.  and plot again
+5.  and plot again
 
 ``` r
 palette <- rainbow(max(as.numeric(mem1)))
 plot(karate,vertex.color=palette[mem1],layout=l)
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-plot.rspec.fixneig-1.png" width="100%" />
 
-7.  run spectral clustering - fixing neighbouring nodes, Cnmin=5
+6.  run spectral clustering - fixing neighbouring nodes, Cnmin=5
 
 ``` r
-status = rSpectral::spectral(fix_neig=1,Cn_min=5)
-spec1.5   = rSpectral::membership(detach_graph=1)
-idx<-match(V(karate)$name,spec1.5$ID)
-mem1.5<-spec1.5$K[idx]
+mem1.5<-igraph::membership(
+  rSpectral::spectral_igraph_communities(karate, fix_neig=1,Cn_min=5))
 ```
 
-Note, in the last call to `membership` we use `detach_graph=1` to clear
-graph from the memory.
-
-8.  and the last plot
+5.  and the last plot
 
 ``` r
 palette <- rainbow(max(as.numeric(mem1.5)))
 plot(karate,vertex.color=palette[mem1.5],layout=l)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-plot.rspec.fixneig.cnmin-1.png" width="100%" />
 
-    <img src="man/figures/Figure_Comp.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+`GraphNEL` objects could be processed similarily, all other graph types
+could be converted either to `igraph` or to `GraphNEL` by packages such
+as `Intergraph`.

@@ -1,4 +1,4 @@
-citHeader("To cite rSpectral in publications use:")
+citHeader("To cite 'rSpectral' in publications use:")
 
 citEntry(
   entry    = "Article",

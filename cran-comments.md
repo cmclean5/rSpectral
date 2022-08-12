@@ -26,4 +26,5 @@ Description field
 ```
 ### Submission comments:
 
-Address all comments, in particular add single quote 
+Address all comments, in particular add single quote to package name in the
+DESCRIPTION file.

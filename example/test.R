@@ -13,11 +13,11 @@ el = as.data.frame(get.edgelist(gg,names=T))
 logFile<-'rSpectral.log'
 for(i in 1:500){
 
-    rSpectral::load_data(df=el)
+    rSpectral:::load_data(df=el)
 
     cat(format(Sys.time(), "%b %d %X"),i,'Started.\n',file = logFile,append = TRUE)
 
-    status = rSpectral::spectral(fix_neig=1)
+    status = rSpectral:::spectral(fix_neig=1)
     spec   = rSpectral::membership()
     rm(spec)
 

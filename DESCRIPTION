@@ -1,19 +1,21 @@
 Package: rSpectral
 Type: Package
 Title: Spectral Modularity Clustering
-Version: 1.0.0.8
+Version: 1.0.0.9
 Authors@R: c(
     person("Colin", "Mclean", 
         email="Colin.D.Mclean@ed.ac.uk", role="aut", 
         comment ="algorithm implementation in Rcpp functions"), 
     person("Anatoly", "Sorokin", 
-        email="lptolik@gmail.com", role=c("aut", "cre")))
+        email="lptolik@gmail.com", role=c("aut", "cre"),
+        comment ="R functions, cranification, documentation, testing, maintenance"))
 Description: Implements the network clustering algorithm described in 
-            (M. E. J. Newman, 2006). The complete iterative algorithm comprises 
-            of two steps. In the first step, the network is expressed in terms 
-            of its leading eigenvalue and eigenvector and recursively partition 
-            into two communities. Partitioning occurs if the maximum positive 
-            eigenvalue is greater than the tolerance (10-5) for the current 
+            Newman (2006) <doi:10.1103/PhysRevE.74.036104>. The complete 
+            iterative algorithm comprises of two steps. In the first step, the 
+            network is expressed in terms of its leading eigenvalue and 
+            eigenvector and recursively partition into two communities. 
+            Partitioning occurs if the maximum positive 
+            eigenvalue is greater than the tolerance (10e-5) for the current 
             partition, and if it results in a positive contribution to the 
             Modularity.
             Given an initial separation using the leading eigen step, 'rSpectral' 
@@ -33,8 +35,6 @@ Description: Implements the network clustering algorithm described in
             applied to each new community found, subdivided each community 
             into two new communities, until we are unable to find any division 
             that results in a positive change in Modularity. 
-            M. E. J. Newman, (2006). Finding community structure in networks 
-            using the eigenvectors of matrices <doi:10.1103/PhysRevE.74.036104>.
 URL: https://github.com/cmclean5/rSpectral
 BugReports: https://github.com/cmclean5/rSpectral/issues/
 License: GPL-2

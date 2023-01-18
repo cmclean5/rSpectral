@@ -67,8 +67,9 @@ void readfile::create_network()
   if( isLabel == 1 ){
     for(i=0; i<net->nvertices; ++i){    
       net->V[i].id = i;
-      sprintf(lab,"%s",labels[i].c_str());
-      length = strlen(lab);
+      //sprintf(lab,"%s",labels[i].c_str());
+      //length = strlen(lab);
+      length = snprintf(lab,sizeof(lab),"%s",labels[i].c_str());
       lab[length] = '\0';
       ////net->V[i].label = (char*)malloc((length+1)*sizeof(char));
       ////net->V[i].assignLabel( (length+1), lab );
@@ -78,8 +79,9 @@ void readfile::create_network()
   } else {
     for(i=0; i<net->nvertices; ++i){    
       net->V[i].id = i;
-      sprintf(lab,"%d",labelsI[i]);
-      length = strlen(lab);
+      //sprintf(lab,"%d",labelsI[i]);
+      //length = strlen(lab);
+      length = snprintf(lab,sizeof(lab),"%d",labelsI[i]);
       lab[length] = '\0';
       ////net->V[i].assignLabel( (length+1), lab );
       ////net->V[i].label = (char*)malloc((length+1)*sizeof(char));

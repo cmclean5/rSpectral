@@ -1,3 +1,14 @@
+# Version 1.0.0.10
+## R CMD check results
+
+0 errors | 0 warnings | 1 note
+
+## Notes
+
+* Fix the problem with sprintf on M1mac (https://www.stats.ox.ac.uk/pub/bdr/sprintf.txt)
+
+
+# Version 1.0.0.9
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note

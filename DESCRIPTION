@@ -1,7 +1,7 @@
 Package: rSpectral
 Type: Package
 Title: Spectral Modularity Clustering
-Version: 1.0.0.9
+Version: 1.0.0.10
 Authors@R: c(
     person("Colin", "Mclean", 
         email="Colin.D.Mclean@ed.ac.uk", role="aut", 

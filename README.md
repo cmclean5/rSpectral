@@ -19,6 +19,12 @@ You can install the development version of rSpectral from
 devtools::install_github("cmclean5/rSpectral")
 ```
 
+The stable version is available on CRAN:
+
+``` r
+install.packages("rSpectral")
+```
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem

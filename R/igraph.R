@@ -59,7 +59,7 @@ spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, f
 #' 
 #' This function invoke \code{\link{spectral_igraph_membership}} to calculate
 #' clustering and convert it into \code{\link[igraph]{communities}} object for
-#' seamless work with native \code{\link{igraph}} clustering functions.
+#' seamless work with native \code{\link[igraph]{igraph}} clustering functions.
 #'
 #' @inheritParams spectral_igraph_membership
 #' @return \code{\link[igraph]{communities}} object

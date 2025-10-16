@@ -3,12 +3,12 @@
 \docType{package}
 \encoding{UTF-8}
 \name{rSpectral}
-\alias{rSpectral}
 \alias{rSpectral-package}
+\alias{rSpectral}
 \title{rSpectral}
 \description{
 This package implements the Spectral Modularity clustering algorithm for
-\code{\link{igraph}} and \code{\link[graph]{graphNEL}} graphs. The algorithm 
+\code{\link[igraph]{igraph}} and \code{\link[graph]{graphNEL}} graphs. The algorithm 
 was proposed in \insertCite{PhysRevE.74.036104}{rSpectral} and an example
 of its application to the real biological network could be found in
 \insertCite{Roy:2018Regional}{rSpectral}.

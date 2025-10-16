@@ -1,3 +1,13 @@
+# Version 1.0.0.11
+## R CMD check results
+
+0 errors | 0 warnings | 1 note
+
+## Notes
+
+* Remove C++11 compilation directive.
+* Fixing Rd file(s) with Rd \link{} targets missing package.
+
 # Version 1.0.0.10
 ## R CMD check results
 

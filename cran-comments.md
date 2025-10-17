@@ -1,3 +1,12 @@
+# Version 1.0.0.12
+## R CMD check results
+
+0 errors | 0 warnings | 0 notes
+
+## Notes
+
+* Fixing CITATION file
+
 # Version 1.0.0.11
 ## R CMD check results
 

@@ -1,7 +1,7 @@
 citHeader("To cite 'rSpectral' in publications use:")
 
-citEntry(
-  entry    = "Article",
+bibentry(
+  bibtype  = "Article",
   title    = paste("Regional Diversity in the Postsynaptic ",
                   "Proteome of the Mouse Brain"),
   author   = c(person("Marcia", "Roy"),
@@ -16,6 +16,7 @@ citEntry(
   volume   = 6,
   number   = 3,
   pages    = 31,
+  doi.     = "10.3390/proteomes6030031",
   url      = "https://www.mdpi.com/2227-7382/6/3/31",
   textVersion = paste("Roy M, Sorokina O, McLean C, Tapia-González S, ",
                       "DeFelipe J, Armstrong JD, Grant SGN. ",

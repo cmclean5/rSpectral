@@ -1,3 +1,12 @@
+# Version 1.0.0.13
+## R CMD check results
+
+0 errors | 0 warnings | 0 notes
+
+## Notes
+
+* Old citEntry was replaced by bibentry
+
 # Version 1.0.0.12
 ## R CMD check results
 

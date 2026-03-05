@@ -1,3 +1,12 @@
+# Version 1.0.0.14
+## R CMD check results
+
+0 errors | 0 warnings | 0 notes
+
+## Notes
+
+* Clear partial match of 'doi' to 'doi.' in CITATION entries
+
 # Version 1.0.0.13
 ## R CMD check results
 

@@ -78,7 +78,7 @@ spectral_igraph_communities<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, 
   res$vcount <- igraph::vcount(g)
   res$algorithm <- "spectral"
   res$membership <- df.mem$membership
-  res$modularity <- igraph::modularity(g,df.mem$membership)
+  res$modularity <- igraph::modularity(g,df.mem$membership,weights = numeric())
   res$names <- df.mem$names
   class(res) <- "communities"
   return(res)

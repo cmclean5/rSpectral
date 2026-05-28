@@ -45,7 +45,6 @@ RdMacros: Rdpack
 LinkingTo: Rcpp, RcppArmadillo(>= 0.11.2.0.0)
 Suggests: 
     RColorBrewer,
-    Rgraphviz,
     igraphdata,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

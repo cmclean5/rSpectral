@@ -57,6 +57,8 @@ in Modularity. An additional stopping criteria, based on the minimum cluster siz
 also provided.
 }
 \examples{
+if(require('igraphdata')){
 data(karate,package='igraphdata')
 df.mem<-spectral_igraph_membership(karate)
+}
 }

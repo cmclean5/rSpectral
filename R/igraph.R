@@ -40,8 +40,10 @@
 #' @importFrom igraph get.edgelist V
 #'
 #' @examples
+#' if(require('igraphdata')){
 #' data(karate,package='igraphdata')
 #' df.mem<-spectral_igraph_membership(karate)
+#' }
 spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L){
   if(!inherits(g,'igraph')){
     stop('Graph should be "igraph" object.')
@@ -67,8 +69,10 @@ spectral_igraph_membership<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, f
 #' @importFrom igraph modularity vcount V
 #'
 #' @examples
+#' if(require('igraphdata')){
 #' data(karate,package='igraphdata')
 #' c<-spectral_igraph_communities(karate)
+#' }
 spectral_igraph_communities<-function(g,Cn_min = 1L, tol = 0.00001, names = 1L, fix_neig = 0L){
   if(!inherits(g,'igraph')){
     stop('Graph should be "igraph" object.')

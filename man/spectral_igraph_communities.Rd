@@ -32,6 +32,8 @@ clustering and convert it into \code{\link[igraph]{communities}} object for
 seamless work with native \code{\link[igraph]{igraph}} clustering functions.
 }
 \examples{
+if(require('igraphdata')){
 data(karate,package='igraphdata')
 c<-spectral_igraph_communities(karate)
+}
 }

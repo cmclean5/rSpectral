@@ -1,4 +1,11 @@
-data(karate,package='igraphdata')
+if(require('igraphdata')){
+  data(karate,package='igraphdata')
+}else{
+  library(igraph)
+  karate <- igraph::make_graph("Zachary")
+  V(karate)$name<-paste0("V",V(karate))
+}
+
 exp_mem10<-c(5,5,5,5,4,4,4,5,1,2,4,6,5,5,1,1,4,5,1,5,1,5,1,3,3,3,1,3,3,1,1,3,1,1)
 exp_mod10<- 0.4078731
 exp_mem11<-c(4,2,5,5,4,4,4,5,1,1,4,4,5,5,1,1,4,2,1,2,1,2,1,3,3,3,1,3,3,1,1,3,1,1)

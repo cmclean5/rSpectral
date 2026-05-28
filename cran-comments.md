@@ -1,3 +1,12 @@
+# Version 1.0.0.16
+## R CMD check results
+
+0 errors | 0 warnings | 0 notes
+
+## Notes
+
+* Handle dependency from suggested package 'igraphdata' in the test
+
 # Version 1.0.0.14
 ## R CMD check results
 
